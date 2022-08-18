@@ -1,16 +1,22 @@
-# to_dont_list
+# To Don't List
 
-A new Flutter project.
+A Flutter Demo project.
 
-## Getting Started
+## Edit Me
 
-This project is a starting point for a Flutter application.
+This is the file you should edit to describe your modified app.
 
-A few resources to get you started if this is your first Flutter project:
+A README.md is written using [Markdown](https://www.markdownguide.org/), a simple language for formatting text that can be rendered as a web page. This README.md information will be displayed on the GitHub main page for your repository. Here is a resource specifically for Markdown syntax and GitHub.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+* <https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax>
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Now, with a text editor on your cloned repository, or by clicking on the edit icon ✏️ on the main github.com page for your forked repository, edit the README.md file in the root directory to provide details about your app’s functionality. Be sure to follow the guidelines of the GitHub documentation on what to include in your README.md file.
+
+* <https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes>
+
+The most important pieces to include right now are
+
+* Who is the audience for this app
+* What the app does
+* Why the app is useful
+* Multiple Screenshots of your app
