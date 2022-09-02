@@ -59,10 +59,10 @@ class ToDoListItem extends StatelessWidget {
           : null,
       leading: CircleAvatar(
         backgroundColor: _getColor(context),
-        child: Text(item.name),
+        child: Text(item.abbrev()), //text of circle is abbreviation
       ),
       title: Text(
-        item.abbrev(),
+        item.name, //item text is the Item's name
         style: _getTextStyle(context),
       ),
     );
