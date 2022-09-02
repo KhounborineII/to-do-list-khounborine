@@ -41,7 +41,7 @@ class _ToDoListState extends State<ToDoList> {
                 builder: (context, value, child) {
                   return ElevatedButton(
                     key: const Key("OKButton"),
-                    style: noStyle,
+                    style: yesStyle,
                     onPressed: value.text.isNotEmpty
                         ? () {
                             setState(() {
@@ -56,7 +56,7 @@ class _ToDoListState extends State<ToDoList> {
               ),
               ElevatedButton(
                 key: const Key("CancelButton"),
-                style: yesStyle,
+                style: noStyle,
                 child: const Text('Cancel'),
                 onPressed: () {
                   setState(() {
