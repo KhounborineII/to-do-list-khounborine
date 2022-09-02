@@ -6,7 +6,7 @@ class Item {
   final String name;
 
   String abbrev() {
-    return name.substring(0, 2);
+    return name.substring(0, 1); //changed from (0,2) to (0,1) to get first letter only
   }
 }
 
