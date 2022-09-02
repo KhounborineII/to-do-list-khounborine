@@ -35,23 +35,12 @@ class _ToDoListState extends State<ToDoList> {
                   const InputDecoration(hintText: "type something here"),
             ),
             actions: <Widget>[
-              ElevatedButton(
-                key: const Key("OkButton"),
-                style: yesStyle,
-                child: const Text('OK'),
-                onPressed: () {
-                  setState(() {
-                    Navigator.pop(context);
-                  });
-                },
-              ),
-
               // https://stackoverflow.com/questions/52468987/how-to-turn-disabled-button-into-enabled-button-depending-on-conditions
               ValueListenableBuilder<TextEditingValue>(
                 valueListenable: _inputController,
                 builder: (context, value, child) {
                   return ElevatedButton(
-                    key: const Key("CancelButton"),
+                    key: const Key("OKButton"),
                     style: noStyle,
                     onPressed: value.text.isNotEmpty
                         ? () {
@@ -61,8 +50,18 @@ class _ToDoListState extends State<ToDoList> {
                             });
                           }
                         : null,
-                    child: const Text('Cancel'),
+                    child: const Text('OK'),
                   );
+                },
+              ),
+              ElevatedButton(
+                key: const Key("CancelButton"),
+                style: yesStyle,
+                child: const Text('Cancel'),
+                onPressed: () {
+                  setState(() {
+                    Navigator.pop(context);
+                  });
                 },
               ),
             ],
