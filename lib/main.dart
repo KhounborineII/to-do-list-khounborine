@@ -35,24 +35,13 @@ class _ToDoListState extends State<ToDoList> {
                   const InputDecoration(hintText: "type something here"),
             ),
             actions: <Widget>[
-              ElevatedButton(
-                key: const Key("OkButton"),
-                style: yesStyle,
-                child: const Text('OK'),
-                onPressed: () {
-                  setState(() {
-                    Navigator.pop(context);
-                  });
-                },
-              ),
-
               // https://stackoverflow.com/questions/52468987/how-to-turn-disabled-button-into-enabled-button-depending-on-conditions
               ValueListenableBuilder<TextEditingValue>(
                 valueListenable: _inputController,
                 builder: (context, value, child) {
                   return ElevatedButton(
-                    key: const Key("CancelButton"),
-                    style: noStyle,
+                    key: const Key("OKButton"),
+                    style: yesStyle,
                     onPressed: value.text.isNotEmpty
                         ? () {
                             setState(() {
@@ -61,8 +50,18 @@ class _ToDoListState extends State<ToDoList> {
                             });
                           }
                         : null,
-                    child: const Text('Cancel'),
+                    child: const Text('OK'),
                   );
+                },
+              ),
+              ElevatedButton(
+                key: const Key("CancelButton"),
+                style: noStyle,
+                child: const Text('Cancel'),
+                onPressed: () {
+                  setState(() {
+                    Navigator.pop(context);
+                  });
                 },
               ),
             ],
@@ -107,7 +106,7 @@ class _ToDoListState extends State<ToDoList> {
   void _handleNewItem(String itemText) {
     setState(() {
       print("Adding new item");
-      Item item = const Item(name: "itemText");
+      Item item = Item(name: itemText); //Item isn't const with String value, Item name is the value of itemText
       items.insert(0, item);
       _inputController.clear();
     });

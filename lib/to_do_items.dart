@@ -6,7 +6,7 @@ class Item {
   final String name;
 
   String abbrev() {
-    return name.substring(0, 2);
+    return name.substring(0, 1); //changed from (0,2) to (0,1) to get first letter only
   }
 }
 
@@ -33,7 +33,7 @@ class ToDoListItem extends StatelessWidget {
     // taking place and therefore which theme to use.
 
     return completed //
-        ? Colors.black
+        ? Colors.black54 //color changed to black54 for test
         : Theme.of(context).primaryColor;
   }
 
@@ -52,17 +52,15 @@ class ToDoListItem extends StatelessWidget {
       onTap: () {
         onListChanged(item, completed);
       },
-      onLongPress: completed
-          ? () {
-              onDeleteItem(item);
-            }
-          : null,
+      onLongPress: () { //delete item after long press
+        onDeleteItem(item);
+      },
       leading: CircleAvatar(
         backgroundColor: _getColor(context),
-        child: Text(item.name),
+        child: Text(item.abbrev()), //text of circle is abbreviation
       ),
       title: Text(
-        item.abbrev(),
+        item.name, //item text is the Item's name
         style: _getTextStyle(context),
       ),
     );
