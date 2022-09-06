@@ -54,13 +54,11 @@ class _ToDoListState extends State<ToDoList> {
                   return ElevatedButton(
                     key: const Key("CancelButton"),
                     style: noStyle,
-                    onPressed: true
-                        ? () {
-                            setState(() {
-                              Navigator.pop(context);
-                            });
-                          }
-                        : null,
+                    onPressed: () {
+                      setState(() {
+                        Navigator.pop(context);
+                      });
+                    },
                     child: const Text('Cancel'),
                   );
                 },

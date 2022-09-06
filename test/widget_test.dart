@@ -88,4 +88,28 @@ void main() {
   });
 
   // One to test the tap and press actions on the items?
+
+  testWidgets('Editing an item already in the list', (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: ToDoList()));
+
+    expect(find.byType(TextField), findsNothing);
+    expect(find.text("add more todos"), findsOneWidget);
+
+    await tester.longPress(find.byType(ListTile));
+    await tester.pump();
+    expect(find.text("add more todos"), findsNWidgets(2));
+    //Finds two since the ListTile contains the text as well as the TextField
+
+    await tester.enterText(find.byType(TextField), 'i work');
+    await tester.pump();
+    expect(find.text("i work"), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key("OKButton")));
+    await tester.pump();
+    expect(find.text("i work"), findsOneWidget);
+
+    final listItemFinder = find.byType(ToDoListItem);
+
+    expect(listItemFinder, findsOneWidget);
+  });
 }
