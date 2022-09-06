@@ -54,7 +54,7 @@ class _ToDoListState extends State<ToDoList> {
                   return ElevatedButton(
                     key: const Key("CancelButton"),
                     style: noStyle,
-                    onPressed: value.text.isNotEmpty
+                    onPressed: true
                         ? () {
                             setState(() {
                               Navigator.pop(context);
@@ -110,6 +110,12 @@ class _ToDoListState extends State<ToDoList> {
       Item item = Item(name: itemText);
       items.insert(0, item);
       _inputController.clear();
+    });
+  }
+
+  void _handleEditItem(String itemText) {
+    setState(() {
+      print("Editing an available item");
     });
   }
 
