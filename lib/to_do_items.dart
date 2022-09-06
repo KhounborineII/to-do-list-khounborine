@@ -12,12 +12,14 @@ class Item {
 
 typedef ToDoListChangedCallback = Function(Item item, bool completed);
 typedef ToDoListRemovedCallback = Function(Item item);
+typedef ToDoListEditedCallback = Function(Item item);
 
 class ToDoListItem extends StatelessWidget {
   ToDoListItem(
       {required this.item,
       required this.completed,
       required this.onListChanged,
+      required this.onEditItem,
       required this.onDeleteItem})
       : super(key: ObjectKey(item));
 
@@ -25,6 +27,7 @@ class ToDoListItem extends StatelessWidget {
   final bool completed;
   final ToDoListChangedCallback onListChanged;
   final ToDoListRemovedCallback onDeleteItem;
+  final ToDoListEditedCallback onEditItem;
 
   Color _getColor(BuildContext context) {
     // The theme depends on the BuildContext because different
@@ -56,7 +59,11 @@ class ToDoListItem extends StatelessWidget {
           ? () {
               onDeleteItem(item);
             }
-          : null,
+          : !completed
+              ? () {
+                  onEditItem(item);
+                }
+              : null,
       leading: CircleAvatar(
         backgroundColor: _getColor(context),
         child: Text(item.abbrev()),

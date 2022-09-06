@@ -70,9 +70,61 @@ class _ToDoListState extends State<ToDoList> {
         });
   }
 
+  Future<void> _displayTextEditDialog(BuildContext context, Item item) async {
+    print("Loading Dialog");
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Item To Edit'),
+            content: TextField(
+              onChanged: (value) {
+                setState(() {
+                  valueText = value;
+                });
+              },
+              controller: _inputController,
+              decoration:
+                  const InputDecoration(hintText: "type something here"),
+            ),
+            actions: <Widget>[
+              ElevatedButton(
+                key: const Key("OKButton"),
+                style: yesStyle,
+                child: const Text('OK'),
+                onPressed: () {
+                  setState(() {
+                    _handleEditItemHelper(item, valueText);
+                    Navigator.pop(context);
+                  });
+                },
+              ),
+
+              // https://stackoverflow.com/questions/52468987/how-to-turn-disabled-button-into-enabled-button-depending-on-conditions
+              ValueListenableBuilder<TextEditingValue>(
+                valueListenable: _inputController,
+                builder: (context, value, child) {
+                  return ElevatedButton(
+                    key: const Key("CancelButton"),
+                    style: noStyle,
+                    onPressed: () {
+                      setState(() {
+                        Navigator.pop(context);
+                      });
+                    },
+                    child: const Text('Cancel'),
+                  );
+                },
+              ),
+            ],
+          );
+        });
+  }
+
   String valueText = "";
 
   final List<Item> items = [const Item(name: "add more todos")];
+  final List<Item> replacement = [];
 
   final _itemSet = <Item>{};
 
@@ -113,9 +165,21 @@ class _ToDoListState extends State<ToDoList> {
     });
   }
 
-  void _handleEditItem(String itemText) {
+  void _handleEditItem(Item item) {
     setState(() {
       print("Editing an available item");
+    });
+    _inputController.text = item.name;
+    _displayTextEditDialog(context, item);
+  }
+
+  void _handleEditItemHelper(Item item, String valueText) {
+    setState(() {
+      int replacer = items.indexOf(item);
+      replacement.add(Item(name: valueText));
+      items.replaceRange(replacer, replacer + 1, replacement);
+      replacement.clear();
+      _inputController.clear();
     });
   }
 
@@ -132,6 +196,7 @@ class _ToDoListState extends State<ToDoList> {
               item: item,
               completed: _itemSet.contains(item),
               onListChanged: _handleListChanged,
+              onEditItem: _handleEditItem,
               onDeleteItem: _handleDeleteItem,
             );
           }).toList(),

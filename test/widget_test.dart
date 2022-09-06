@@ -25,6 +25,7 @@ void main() {
                 item: const Item(name: "test"),
                 completed: true,
                 onListChanged: (Item item, bool completed) {},
+                onEditItem: (Item item) {},
                 onDeleteItem: (Item item) {}))));
     final textFinder = find.text('test');
 
@@ -41,6 +42,7 @@ void main() {
                 item: const Item(name: "test"),
                 completed: true,
                 onListChanged: (Item item, bool completed) {},
+                onEditItem: (Item item) {},
                 onDeleteItem: (Item item) {}))));
     final abbvFinder = find.text('t');
     final avatarFinder = find.byType(CircleAvatar);
