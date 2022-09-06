@@ -24,5 +24,17 @@ Here is an example of what adding a new Todo looks like, kind of cool right?
 Now, how about the deletion feature? I cannot exactly show it in an image, but I can show you what it looks like post-deletion.
 
 ### It's Gone!
-![assets/images/appshot5.PNG](/assets/images/appshot5.PNG)
+![/assets/images/appshot5.PNG](/assets/images/appshot5.PNG)
 
+Wow, those images are kind of big...
+Besides that, now you can see that completed Todo is now completely gone.
+But what makes this app stand out? What's the new feature you added? You asked, and I shall give it to you! Take a look at my "Island Sancturay (Savage) todo. Isn't there something wrong with it? That's right! I mispelled Sanctuary, woops. No matter! With the Edit Feature I implemented, fixing that will be as easy as breathing (my apologies to those with asthma). 
+
+### The New Feature!
+![/assets/images/appshot3.PNG](/assets/images/appshot3.PNG)
+
+With this, I can fix my mistakes, I can make this right!
+
+![/assets/images/appshot4.PNG](/assets/images/appshot4.PNG)
+
+And viola! Hope you enjoyed looking at this slightly improved version of Goadrich's broken To Do List App made by yours truly.
