@@ -35,6 +35,6 @@ But what makes this app stand out? What's the new feature you added? You asked, 
 
 With this, I can fix my mistakes, I can make this right!
 
-![/assets/images/appshot4.PNG](/assets/images/appshot4.PNG)
+![/assets/images/appshot6.PNG](/assets/images/appshot6.PNG)
 
 And viola! Hope you enjoyed looking at this slightly improved version of Goadrich's broken To Do List App made by yours truly.
