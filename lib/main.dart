@@ -56,7 +56,7 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
                     onPressed: value.text.isNotEmpty
                         ? () {
                             setState(() {
-                              _handleNewItem(valueText);
+                              _handleNewItem(name, price);
                               Navigator.pop(context);
                             });
                           }
@@ -84,8 +84,8 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
   String price = "";
 
   final List<Squirrel> items = [
-    const Squirrel(name: "Squirrel 1"), //init with multiple
-    const Squirrel(name: "Squirrel 2"), const Squirrel(name: "Squirrel 3")
+    const Squirrel(name: "Squirrel 1", price: 3), //init with multiple
+    const Squirrel(name: "Squirrel 2", price: 7), const Squirrel(name: "Squirrel 3", price: 9)
   ];
 
   final _itemSet = <Squirrel>{};
@@ -118,12 +118,12 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
     });
   }
 
-  void _handleNewItem(String itemText) {
+  void _handleNewItem(String itemText, int itemPrice) {
     //, int itemPrice
     setState(() {
       print("Adding new item");
-      Squirrel item = Squirrel(name: itemText);
-      //price: itemPrice); //Item isn't const with String value, Item name is the value of itemText
+      Squirrel item = Squirrel(name: itemText, price: itemPrice);
+        //Item isn't const with String value, Item name is the value of itemText
       items.insert(0, item);
       _inputController.clear();
     });
@@ -140,6 +140,7 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
           children: items.map((item) {
             return SquirrelItem(
               item: item,
+              sold: _handleSoldSquirrel,
               completed: _itemSet.contains(item),
               onListChanged: _handleListChanged,
               onDeleteItem: _handleDeleteItem,

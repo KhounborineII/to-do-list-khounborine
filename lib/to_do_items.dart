@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class Squirrel {
-  const Squirrel({required this.name}); //, required this.price
+  const Squirrel({required this.name, required this.price});
 
   final String name;
-  //final int price; //asking price
+  final int price; //asking price
   //final Image image; //squirrel image
 
   String abbrev() {
@@ -20,14 +20,14 @@ class SquirrelItem extends StatelessWidget {
   SquirrelItem(
       {required this.item,
       required this.completed,
-      //required this.sold, //sold squirrel
+      required this.sold, //sold squirrel
       required this.onListChanged,
       required this.onDeleteItem})
       : super(key: ObjectKey(item));
 
   final Squirrel item;
   final bool completed;
-  //final bool sold; //sold squirrel
+  final bool sold; //sold squirrel
   final ToDoListChangedCallback onListChanged;
   final ToDoListRemovedCallback onDeleteItem;
 
@@ -68,8 +68,10 @@ class SquirrelItem extends StatelessWidget {
       title: Text(
         item.name, //item text is the Item's name
         style: _getTextStyle(context),
-        //subtitle: item.price //price of squirrel
       ),
-    );
+      subtitle:Text(
+        item.price.toString()
+      )
+      );
   }
 }
