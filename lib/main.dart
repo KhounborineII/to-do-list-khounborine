@@ -24,7 +24,7 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
         builder: (context) {
           return AlertDialog(
             title: const Text('Squirrel To Add'),
-            content: Row(children: <Widget>[
+            content: Column(children: <Widget>[
               TextField(
                 onChanged: (value) {
                   setState(() {
@@ -140,7 +140,7 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
           children: items.map((item) {
             return SquirrelItem(
               item: item,
-              sold: _handleSoldSquirrel,
+              //sold: _handleSoldSquirrel,
               completed: _itemSet.contains(item),
               onListChanged: _handleListChanged,
               onDeleteItem: _handleDeleteItem,
