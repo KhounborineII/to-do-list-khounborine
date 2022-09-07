@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
-class Item {
-  const Item({required this.name, required this.price});
+class Squirrel {
+  const Squirrel({required this.name}); //, required this.price
 
   final String name;
-  final int price;
+  //final int price; //asking price
+  //final Image image; //squirrel image
 
   String abbrev() {
     return name.substring(
@@ -12,19 +13,21 @@ class Item {
   }
 }
 
-typedef ToDoListChangedCallback = Function(Item item, bool completed);
-typedef ToDoListRemovedCallback = Function(Item item);
+typedef ToDoListChangedCallback = Function(Squirrel item, bool completed);
+typedef ToDoListRemovedCallback = Function(Squirrel item);
 
 class ToDoListItem extends StatelessWidget {
   ToDoListItem(
       {required this.item,
       required this.completed,
+      //required this.sold, //sold squirrel
       required this.onListChanged,
       required this.onDeleteItem})
       : super(key: ObjectKey(item));
 
-  final Item item;
+  final Squirrel item;
   final bool completed;
+  //final bool sold; //sold squirrel
   final ToDoListChangedCallback onListChanged;
   final ToDoListRemovedCallback onDeleteItem;
 
@@ -65,6 +68,7 @@ class ToDoListItem extends StatelessWidget {
       title: Text(
         item.name, //item text is the Item's name
         style: _getTextStyle(context),
+        //subtitle: item.price //price of squirrel
       ),
     );
   }

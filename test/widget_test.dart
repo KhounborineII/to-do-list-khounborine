@@ -13,7 +13,7 @@ import 'package:to_dont_list/to_do_items.dart';
 
 void main() {
   test('Item abbreviation should be first letter', () {
-    const item = Item(name: "add more todos");
+    const item = Squirrel(name: "add more todos");
     expect(item.abbrev(), "a");
   });
 
@@ -22,10 +22,10 @@ void main() {
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(
             body: ToDoListItem(
-                item: const Item(name: "test"),
+                item: const Squirrel(name: "test"),
                 completed: true,
-                onListChanged: (Item item, bool completed) {},
-                onDeleteItem: (Item item) {}))));
+                onListChanged: (Squirrel item, bool completed) {},
+                onDeleteItem: (Squirrel item) {}))));
     final textFinder = find.text('test');
 
     // Use the `findsOneWidget` matcher provided by flutter_test to verify
@@ -38,10 +38,10 @@ void main() {
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(
             body: ToDoListItem(
-                item: const Item(name: "test"),
+                item: const Squirrel(name: "test"),
                 completed: true,
-                onListChanged: (Item item, bool completed) {},
-                onDeleteItem: (Item item) {}))));
+                onListChanged: (Squirrel item, bool completed) {},
+                onDeleteItem: (Squirrel item) {}))));
     final abbvFinder = find.text('t');
     final avatarFinder = find.byType(CircleAvatar);
 
@@ -56,7 +56,7 @@ void main() {
   });
 
   testWidgets('Default ToDoList has one item', (tester) async {
-    await tester.pumpWidget(const MaterialApp(home: ToDoList()));
+    await tester.pumpWidget(const MaterialApp(home: SquirrelShopping()));
 
     final listItemFinder = find.byType(ToDoListItem);
 
@@ -64,7 +64,7 @@ void main() {
   });
 
   testWidgets('Clicking and Typing adds item to ToDoList', (tester) async {
-    await tester.pumpWidget(const MaterialApp(home: ToDoList()));
+    await tester.pumpWidget(const MaterialApp(home: SquirrelShopping()));
 
     expect(find.byType(TextField), findsNothing);
 

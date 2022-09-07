@@ -2,14 +2,14 @@
 import 'package:flutter/material.dart';
 import 'package:to_dont_list/to_do_items.dart';
 
-class ToDoList extends StatefulWidget {
-  const ToDoList({super.key});
+class SquirrelShopping extends StatefulWidget {
+  const SquirrelShopping({super.key});
 
   @override
-  State createState() => _ToDoListState();
+  State createState() => _SquirrelShoppingState();
 }
 
-class _ToDoListState extends State<ToDoList> {
+class _SquirrelShoppingState extends State<SquirrelShopping> {
   // Dialog with text from https://www.appsdeveloperblog.com/alert-dialog-with-a-text-field-in-flutter/
   final TextEditingController _inputController = TextEditingController();
   final ButtonStyle yesStyle = ElevatedButton.styleFrom(
@@ -23,18 +23,35 @@ class _ToDoListState extends State<ToDoList> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text('Item To Add'),
-            content: TextField(
-              onChanged: (value) {
-                setState(() {
-                  valueText = value;
-                });
-              },
-              controller: _inputController,
-              decoration:
-                  const InputDecoration(hintText: "type something here"),
-            ),
+            title: const Text('Squirrel To Add'),
+            content: Column(children: <Widget>[
+              TextField(
+                onChanged: (value) {
+                  setState(() {
+                    valueText = value;
+                  });
+                },
+                controller: _inputController,
+                decoration: const InputDecoration(hintText: "type Name here"),
+              ),
+            ]),
             actions: <Widget>[
+              // DropdownButton<int>(
+              //   //add drop down field for price https://stackoverflow.com/questions/49273157/how-to-implement-drop-down-list-in-flutter
+              //   hint: const Text("Price"),
+              //   items: <int>[1, 2, 3, 4, 5].map((int value) {
+              //     return DropdownMenuItem<int>(
+              //       value: value,
+              //       child: value,
+              //     );
+              //   }).toList(),
+              //   onChanged: ,
+              //   onTap: (value) {
+              //     setState(() {
+              //       priceInt = value;
+              //     });
+              //   },
+              // ),
               // https://stackoverflow.com/questions/52468987/how-to-turn-disabled-button-into-enabled-button-depending-on-conditions
               ValueListenableBuilder<TextEditingValue>(
                 valueListenable: _inputController,
@@ -71,11 +88,14 @@ class _ToDoListState extends State<ToDoList> {
 
   String valueText = "";
 
-  final List<Item> items = [const Item(name: "Squirrel 1", price: 10)];
+  final List<Squirrel> items = [
+    const Squirrel(name: "Squirrel 1"), //init with multiple
+    const Squirrel(name: "Squirrel 2"), const Squirrel(name: "Squirrel 3")
+  ];
 
-  final _itemSet = <Item>{};
+  final _itemSet = <Squirrel>{};
 
-  void _handleListChanged(Item item, bool completed) {
+  void _handleListChanged(Squirrel item, bool completed) {
     setState(() {
       // When a user changes what's in the list, you need
       // to change _itemSet inside a setState call to
@@ -96,17 +116,19 @@ class _ToDoListState extends State<ToDoList> {
     });
   }
 
-  void _handleDeleteItem(Item item) {
+  void _handleDeleteItem(Squirrel item) {
     setState(() {
       print("Deleting item");
       items.remove(item);
     });
   }
 
-  void _handleNewItem(String itemText, int itemPrice) {
+  void _handleNewItem(String itemText) {
+    //, int itemPrice
     setState(() {
       print("Adding new item");
-      Item item = Item(name: itemText, price: itemPrice); //Item isn't const with String value, Item name is the value of itemText
+      Squirrel item = Squirrel(name: itemText);
+      //price: itemPrice); //Item isn't const with String value, Item name is the value of itemText
       items.insert(0, item);
       _inputController.clear();
     });
@@ -116,7 +138,7 @@ class _ToDoListState extends State<ToDoList> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('To Do List'),
+          title: const Text('Squirrel Shopping Catalogue'),
         ),
         body: ListView(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -140,6 +162,6 @@ class _ToDoListState extends State<ToDoList> {
 void main() {
   runApp(const MaterialApp(
     title: 'To Do List',
-    home: ToDoList(),
+    home: SquirrelShopping(),
   ));
 }
