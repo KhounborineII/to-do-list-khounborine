@@ -13,7 +13,7 @@ import 'package:to_dont_list/to_do_items.dart';
 
 void main() {
   test('Item abbreviation should be first letter', () {
-    const item = Squirrel(name: "Squirrel");
+    const item = Squirrel(name: "Squirrel", price: 6);
     expect(item.abbrev(), "S");
   });
 
@@ -22,7 +22,7 @@ void main() {
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(
             body: SquirrelItem(
-                item: const Squirrel(name: "test"),
+                item: const Squirrel(name: "test", price: 4),
                 completed: true,
                 onListChanged: (Squirrel item, bool completed) {},
                 onDeleteItem: (Squirrel item) {}))));
@@ -38,7 +38,7 @@ void main() {
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(
             body: SquirrelItem(
-                item: const Squirrel(name: "test"),
+                item: const Squirrel(name: "test", price: 0),
                 completed: true,
                 onListChanged: (Squirrel item, bool completed) {},
                 onDeleteItem: (Squirrel item) {}))));

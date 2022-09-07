@@ -56,7 +56,7 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
                     onPressed: value.text.isNotEmpty
                         ? () {
                             setState(() {
-                              _handleNewItem(name, price);
+                              _handleNewItem(name, int.parse(price));
                               Navigator.pop(context);
                             });
                           }

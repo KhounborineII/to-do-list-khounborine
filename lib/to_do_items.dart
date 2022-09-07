@@ -20,14 +20,14 @@ class SquirrelItem extends StatelessWidget {
   SquirrelItem(
       {required this.item,
       required this.completed,
-      required this.sold, //sold squirrel
+      //required this.sold, //sold squirrel
       required this.onListChanged,
       required this.onDeleteItem})
       : super(key: ObjectKey(item));
 
   final Squirrel item;
   final bool completed;
-  final bool sold; //sold squirrel
+  //final bool sold; //sold squirrel
   final ToDoListChangedCallback onListChanged;
   final ToDoListRemovedCallback onDeleteItem;
 
