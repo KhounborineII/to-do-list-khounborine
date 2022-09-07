@@ -143,7 +143,7 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
         body: ListView(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           children: items.map((item) {
-            return ToDoListItem(
+            return SquirrelItem(
               item: item,
               completed: _itemSet.contains(item),
               onListChanged: _handleListChanged,

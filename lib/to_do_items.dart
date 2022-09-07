@@ -16,8 +16,8 @@ class Squirrel {
 typedef ToDoListChangedCallback = Function(Squirrel item, bool completed);
 typedef ToDoListRemovedCallback = Function(Squirrel item);
 
-class ToDoListItem extends StatelessWidget {
-  ToDoListItem(
+class SquirrelItem extends StatelessWidget {
+  SquirrelItem(
       {required this.item,
       required this.completed,
       //required this.sold, //sold squirrel

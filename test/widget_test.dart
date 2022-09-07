@@ -13,15 +13,15 @@ import 'package:to_dont_list/to_do_items.dart';
 
 void main() {
   test('Item abbreviation should be first letter', () {
-    const item = Squirrel(name: "add more todos");
-    expect(item.abbrev(), "a");
+    const item = Squirrel(name: "Squirrel");
+    expect(item.abbrev(), "S");
   });
 
   // Yes, you really need the MaterialApp and Scaffold
-  testWidgets('ToDoListItem has a text', (tester) async {
+  testWidgets('SquirrelItem has a text', (tester) async {
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(
-            body: ToDoListItem(
+            body: SquirrelItem(
                 item: const Squirrel(name: "test"),
                 completed: true,
                 onListChanged: (Squirrel item, bool completed) {},
@@ -33,11 +33,11 @@ void main() {
     expect(textFinder, findsOneWidget);
   });
 
-  testWidgets('ToDoListItem has a Circle Avatar with abbreviation',
+  testWidgets('SquirrelItem has a Circle Avatar with abbreviation',
       (tester) async {
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(
-            body: ToDoListItem(
+            body: SquirrelItem(
                 item: const Squirrel(name: "test"),
                 completed: true,
                 onListChanged: (Squirrel item, bool completed) {},
@@ -55,12 +55,12 @@ void main() {
     expect(ctext.data, "t");
   });
 
-  testWidgets('Default ToDoList has one item', (tester) async {
+  testWidgets('Default SquirrelCatalogue has three items', (tester) async { 
     await tester.pumpWidget(const MaterialApp(home: SquirrelShopping()));
 
-    final listItemFinder = find.byType(ToDoListItem);
+    final listItemFinder = find.byType(SquirrelItem);
 
-    expect(listItemFinder, findsOneWidget);
+    expect(listItemFinder, findsNWidgets(3)); 
   });
 
   testWidgets('Clicking and Typing adds item to ToDoList', (tester) async {
@@ -80,9 +80,9 @@ void main() {
     await tester.pump();
     expect(find.text("hi"), findsOneWidget);
 
-    final listItemFinder = find.byType(ToDoListItem);
+    final listItemFinder = find.byType(SquirrelItem);
 
-    expect(listItemFinder, findsNWidgets(2));
+    expect(listItemFinder, findsNWidgets(4)); //catalogue initialized with 3 squirrels
   });
 
   // One to test the tap and press actions on the items?
