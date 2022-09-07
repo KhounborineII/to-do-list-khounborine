@@ -63,7 +63,7 @@ void main() {
     expect(listItemFinder, findsNWidgets(3)); 
   });
 
-  testWidgets('Clicking and Typing adds item to ToDoList', (tester) async {
+  testWidgets('Clicking and Typing adds item to Squirrel Catalogue', (tester) async {
     await tester.pumpWidget(const MaterialApp(home: SquirrelShopping()));
 
     expect(find.byType(TextField), findsNothing);

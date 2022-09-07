@@ -33,17 +33,17 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
                   });
                 },
                 controller: _nameInputController,
-                decoration: const InputDecoration(hintText: "type Name here"),
+                decoration: const InputDecoration(label: Text("type Name here")),
               ),
               TextField(
-                keyboardType: TextInputType.number,
+                keyboardType: TextInputType.number, //https://stackoverflow.com/questions/49577781/how-to-create-number-input-field-in-flutter
                 onChanged: (value) {
                   setState(() {
                     price = value;
                   });
                 },
                 controller: _priceInputController,
-                decoration: const InputDecoration(hintText: "type Price here"),
+                decoration: const InputDecoration(label: Text("type Price here")),
               )
             ]),
             actions: <Widget>[
@@ -73,6 +73,8 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
                 onPressed: () {
                   setState(() {
                     Navigator.pop(context);
+                    _priceInputController.clear(); //clear text fields after cancel
+                    _nameInputController.clear();
                   });
                 },
               ),
