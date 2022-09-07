@@ -24,34 +24,28 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
         builder: (context) {
           return AlertDialog(
             title: const Text('Squirrel To Add'),
-            content: Column(children: <Widget>[
+            content: Row(children: <Widget>[
               TextField(
                 onChanged: (value) {
                   setState(() {
-                    valueText = value;
+                    name = value;
                   });
                 },
                 controller: _inputController,
                 decoration: const InputDecoration(hintText: "type Name here"),
               ),
+              TextField(
+                keyboardType: TextInputType.number,
+                onChanged: (value) {
+                  setState(() {
+                    price = value;
+                  });
+                },
+                controller: _inputController,
+                decoration: const InputDecoration(hintText: "type Price here"),
+              )
             ]),
             actions: <Widget>[
-              // DropdownButton<int>(
-              //   //add drop down field for price https://stackoverflow.com/questions/49273157/how-to-implement-drop-down-list-in-flutter
-              //   hint: const Text("Price"),
-              //   items: <int>[1, 2, 3, 4, 5].map((int value) {
-              //     return DropdownMenuItem<int>(
-              //       value: value,
-              //       child: value,
-              //     );
-              //   }).toList(),
-              //   onChanged: ,
-              //   onTap: (value) {
-              //     setState(() {
-              //       priceInt = value;
-              //     });
-              //   },
-              // ),
               // https://stackoverflow.com/questions/52468987/how-to-turn-disabled-button-into-enabled-button-depending-on-conditions
               ValueListenableBuilder<TextEditingValue>(
                 valueListenable: _inputController,
@@ -86,7 +80,8 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
         });
   }
 
-  String valueText = "";
+  String name = "";
+  String price = "";
 
   final List<Squirrel> items = [
     const Squirrel(name: "Squirrel 1"), //init with multiple
