@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 class Item {
-  const Item({required this.name});
+  const Item({required this.name, required this.price});
 
   final String name;
+  final int price;
 
   String abbrev() {
-    return name.substring(0, 1); //changed from (0,2) to (0,1) to get first letter only
+    return name.substring(
+        0, 1); //changed from (0,2) to (0,1) to get first letter only
   }
 }
 
@@ -52,7 +54,8 @@ class ToDoListItem extends StatelessWidget {
       onTap: () {
         onListChanged(item, completed);
       },
-      onLongPress: () { //delete item after long press
+      onLongPress: () {
+        //delete item after long press
         onDeleteItem(item);
       },
       leading: CircleAvatar(

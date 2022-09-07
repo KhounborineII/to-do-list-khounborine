@@ -71,7 +71,7 @@ class _ToDoListState extends State<ToDoList> {
 
   String valueText = "";
 
-  final List<Item> items = [const Item(name: "add more todos")];
+  final List<Item> items = [const Item(name: "Squirrel 1", price: 10)];
 
   final _itemSet = <Item>{};
 
@@ -103,10 +103,10 @@ class _ToDoListState extends State<ToDoList> {
     });
   }
 
-  void _handleNewItem(String itemText) {
+  void _handleNewItem(String itemText, int itemPrice) {
     setState(() {
       print("Adding new item");
-      Item item = Item(name: itemText); //Item isn't const with String value, Item name is the value of itemText
+      Item item = Item(name: itemText, price: itemPrice); //Item isn't const with String value, Item name is the value of itemText
       items.insert(0, item);
       _inputController.clear();
     });
