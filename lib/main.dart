@@ -11,7 +11,8 @@ class SquirrelShopping extends StatefulWidget {
 
 class _SquirrelShoppingState extends State<SquirrelShopping> {
   // Dialog with text from https://www.appsdeveloperblog.com/alert-dialog-with-a-text-field-in-flutter/
-  final TextEditingController _inputController = TextEditingController();
+  final TextEditingController _nameInputController = TextEditingController();
+  final TextEditingController _priceInputController = TextEditingController();
   final ButtonStyle yesStyle = ElevatedButton.styleFrom(
       textStyle: const TextStyle(fontSize: 20), primary: Colors.green);
   final ButtonStyle noStyle = ElevatedButton.styleFrom(
@@ -31,7 +32,7 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
                     name = value;
                   });
                 },
-                controller: _inputController,
+                controller: _nameInputController,
                 decoration: const InputDecoration(hintText: "type Name here"),
               ),
               TextField(
@@ -41,14 +42,14 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
                     price = value;
                   });
                 },
-                controller: _inputController,
+                controller: _priceInputController,
                 decoration: const InputDecoration(hintText: "type Price here"),
               )
             ]),
             actions: <Widget>[
               // https://stackoverflow.com/questions/52468987/how-to-turn-disabled-button-into-enabled-button-depending-on-conditions
               ValueListenableBuilder<TextEditingValue>(
-                valueListenable: _inputController,
+                valueListenable: _nameInputController,
                 builder: (context, value, child) {
                   return ElevatedButton(
                     key: const Key("OKButton"),
@@ -85,7 +86,8 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
 
   final List<Squirrel> items = [
     const Squirrel(name: "Squirrel 1", price: 3), //init with multiple
-    const Squirrel(name: "Squirrel 2", price: 7), const Squirrel(name: "Squirrel 3", price: 9)
+    const Squirrel(name: "Squirrel 2", price: 7),
+    const Squirrel(name: "Squirrel 3", price: 9)
   ];
 
   final _itemSet = <Squirrel>{};
@@ -123,9 +125,10 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
     setState(() {
       print("Adding new item");
       Squirrel item = Squirrel(name: itemText, price: itemPrice);
-        //Item isn't const with String value, Item name is the value of itemText
+      //Item isn't const with String value, Item name is the value of itemText
       items.insert(0, item);
-      _inputController.clear();
+      _priceInputController.clear();
+      _nameInputController.clear();
     });
   }
 
