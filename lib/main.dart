@@ -185,3 +185,12 @@ void main() {
     home: ToDoList(),
   ));
 }
+
+// "You could have the app be a fortune recorder, 
+//  so the magic 8 ball is the way you get to add things to the list?"
+
+// Have a class that holds a huge list of "predictions", "tasks", and "warnings" 
+// - When you press the button on the bottom, 
+//    it will add a new item to the list from that list. 
+// If you manually type something into the task list, 
+//  append a magic eight ball saying to the end of the to do item.

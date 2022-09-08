@@ -109,5 +109,4 @@ void main() {
 
     expect(titleFinder1, findsOneWidget);
   });
-
 }
