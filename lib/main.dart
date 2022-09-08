@@ -106,18 +106,12 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
       // The framework then calls build, below,
       // which updates the visual appearance of the app.
 
-      //items.remove(item);
       if (!sold) {
         print("Selling");
         _itemSet.add(item);
         //items.add(item);
         print(items);
       }
-      // else {
-      //   print("Making Undone");
-      //   _itemSet.remove(item);
-      //   items.insert(0, item);
-      // }
     });
   }
 
