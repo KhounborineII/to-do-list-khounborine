@@ -21,15 +21,12 @@ class SquirrelItem extends StatelessWidget {
       {required this.item,
       required this.sold,
       //required this.sold, //sold squirrel
-      required this.onListChanged,
-      required this.onDeleteItem})
+      required this.onListChanged})
       : super(key: ObjectKey(item));
 
   final Squirrel item;
   final bool sold;
-  //final bool sold; //sold squirrel
   final ToDoListChangedCallback onListChanged;
-  final ToDoListRemovedCallback onDeleteItem;
 
   Color _getColor(BuildContext context) {
     // The theme depends on the BuildContext because different
@@ -57,7 +54,6 @@ class SquirrelItem extends StatelessWidget {
     } else {
       return Text("SOLD");
     }
-    ;
   }
 
   @override
@@ -65,10 +61,6 @@ class SquirrelItem extends StatelessWidget {
     return ListTile(
         onTap: () {
           onListChanged(item, sold);
-        },
-        onLongPress: () {
-          //delete item after long press
-          onDeleteItem(item);
         },
         leading: CircleAvatar(
           backgroundColor: _getColor(context),

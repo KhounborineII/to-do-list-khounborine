@@ -151,8 +151,7 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
             item: item,
             //sold: _handleSoldSquirrel,
             sold: _itemSet.contains(item),
-            onListChanged: _handleSquirrelSelling,
-            onDeleteItem: _handleDeleteItem,
+            onListChanged: _handleSquirrelSelling
           );
         }).toList(),
       ),
