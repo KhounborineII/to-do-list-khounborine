@@ -14,13 +14,11 @@ class Squirrel {
 }
 
 typedef ToDoListChangedCallback = Function(Squirrel item, bool completed);
-typedef ToDoListRemovedCallback = Function(Squirrel item);
 
 class SquirrelItem extends StatelessWidget {
   SquirrelItem(
       {required this.item,
       required this.sold,
-      //required this.sold, //sold squirrel
       required this.onListChanged})
       : super(key: ObjectKey(item));
 

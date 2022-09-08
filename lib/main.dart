@@ -91,14 +91,14 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
   String price = "";
 
   final List<Squirrel> items = [
-    const Squirrel(name: "Squirrel 1", price: 3), //init with multiple
-    const Squirrel(name: "Squirrel 2", price: 7),
-    const Squirrel(name: "Squirrel 3", price: 9)
+    const Squirrel(name: "Bob", price: 3), //init with multiple
+    const Squirrel(name: "Claude", price: 7),
+    const Squirrel(name: "Nuts", price: 9)
   ];
 
   final _itemSet = <Squirrel>{};
 
-  void _handleSquirrelSelling(Squirrel item, bool completed) {
+  void _handleSquirrelSelling(Squirrel item, bool sold) {
     setState(() {
       // When a user changes what's in the list, you need
       // to change _itemSet inside a setState call to
@@ -106,23 +106,18 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
       // The framework then calls build, below,
       // which updates the visual appearance of the app.
 
-      items.remove(item);
-      if (!completed) {
-        print("Completing");
+      //items.remove(item);
+      if (!sold) {
+        print("Selling");
         _itemSet.add(item);
-        items.add(item);
-      } else {
-        print("Making Undone");
-        _itemSet.remove(item);
-        items.insert(0, item);
+        //items.add(item);
+        print(items);
       }
-    });
-  }
-
-  void _handleDeleteItem(Squirrel item) {
-    setState(() {
-      print("Deleting item");
-      items.remove(item);
+      // else {
+      //   print("Making Undone");
+      //   _itemSet.remove(item);
+      //   items.insert(0, item);
+      // }
     });
   }
 
@@ -142,17 +137,15 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Squirrel Shopping Catalogue'),
+        title: const Text('Squirrel Store Catalogue'),
       ),
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         children: items.map((item) {
           return SquirrelItem(
-            item: item,
-            //sold: _handleSoldSquirrel,
-            sold: _itemSet.contains(item),
-            onListChanged: _handleSquirrelSelling
-          );
+              item: item,
+              sold: _itemSet.contains(item),
+              onListChanged: _handleSquirrelSelling);
         }).toList(),
       ),
       floatingActionButton: FloatingActionButton(
@@ -166,7 +159,7 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
 
 void main() {
   runApp(const MaterialApp(
-    title: 'To Do List',
+    title: 'Squirrel Store Catalogue',
     home: SquirrelShopping(),
   ));
 }
