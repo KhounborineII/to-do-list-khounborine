@@ -19,7 +19,7 @@ class DecisionMaker extends StatefulWidget {
 
 class _DecisionMakerState extends State<DecisionMaker> {
   final _random = new Random();
-  int _max = 2;
+  int _max = 3;
   int _rolled = 0;
   String answer = "Click Me";
 
@@ -40,10 +40,9 @@ class _DecisionMakerState extends State<DecisionMaker> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        bottomSheet: BottomAppBar(
-            child: TextButton(
-                onPressed: _randomInRange, child: Text("Should I?: $answer"))));
+    return BottomAppBar(
+        child: TextButton(
+            onPressed: _randomInRange, child: Text("Should I?: $answer")));
   }
 }
 
@@ -175,7 +174,7 @@ class _ToDoListState extends State<ToDoList> {
           onPressed: () {
             _displayTextInputDialog(context);
           }),
-      bottomSheet: const DecisionMaker(),
+      bottomNavigationBar: const DecisionMaker(),
     );
   }
 }
