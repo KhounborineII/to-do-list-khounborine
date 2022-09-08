@@ -1,12 +1,50 @@
 // Started with https://docs.flutter.dev/development/ui/widgets-intro
 import 'package:flutter/material.dart';
 import 'package:to_dont_list/to_do_items.dart';
+import 'dart:math';
 
 class ToDoList extends StatefulWidget {
   const ToDoList({super.key});
 
   @override
   State createState() => _ToDoListState();
+}
+
+class DecisionMaker extends StatefulWidget {
+  const DecisionMaker({super.key});
+
+  @override
+  State createState() => _DecisionMakerState();
+}
+
+class _DecisionMakerState extends State<DecisionMaker> {
+  final _random = new Random();
+  int _max = 2;
+  int _rolled = 0;
+  String answer = "Click Me";
+
+  void _randomInRange() {
+    setState(() {
+      _rolled = _random.nextInt(_max);
+      if (_rolled == 0) {
+        answer = "No";
+      }
+      if (_rolled == 1) {
+        answer = "Yes";
+      }
+      if (_rolled == 2) {
+        answer = "Maybe";
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        bottomSheet: BottomAppBar(
+            child: TextButton(
+                onPressed: _randomInRange, child: Text("Should I?: $answer"))));
+  }
 }
 
 class _ToDoListState extends State<ToDoList> {
@@ -118,25 +156,27 @@ class _ToDoListState extends State<ToDoList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Items completed: $numCompleted'),
-        ),
-        body: ListView(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          children: items.map((item) {
-            return ToDoListItem(
-              item: item,
-              completed: _itemSet.contains(item),
-              onListChanged: _handleListChanged,
-              onDeleteItem: _handleDeleteItem,
-            );
-          }).toList(),
-        ),
-        floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.add),
-            onPressed: () {
-              _displayTextInputDialog(context);
-            }));
+      appBar: AppBar(
+        title: Text('Items completed: $numCompleted'),
+      ),
+      body: ListView(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        children: items.map((item) {
+          return ToDoListItem(
+            item: item,
+            completed: _itemSet.contains(item),
+            onListChanged: _handleListChanged,
+            onDeleteItem: _handleDeleteItem,
+          );
+        }).toList(),
+      ),
+      floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.add),
+          onPressed: () {
+            _displayTextInputDialog(context);
+          }),
+      bottomSheet: const DecisionMaker(),
+    );
   }
 }
 
