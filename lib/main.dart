@@ -75,6 +75,8 @@ class _ToDoListState extends State<ToDoList> {
 
   final _itemSet = <Item>{};
 
+  int numCompleted = 0;
+
   void _handleListChanged(Item item, bool completed) {
     setState(() {
       // When a user changes what's in the list, you need
@@ -88,6 +90,7 @@ class _ToDoListState extends State<ToDoList> {
         print("Completing");
         _itemSet.add(item);
         items.add(item);
+        numCompleted++;
       } else {
         print("Making Undone");
         _itemSet.remove(item);
@@ -116,7 +119,7 @@ class _ToDoListState extends State<ToDoList> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('To Do List'),
+          title: Text('Items completed: $numCompleted'),
         ),
         body: ListView(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
