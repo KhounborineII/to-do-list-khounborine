@@ -33,17 +33,20 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
                   });
                 },
                 controller: _nameInputController,
-                decoration: const InputDecoration(label: Text("type Name here")),
+                decoration:
+                    const InputDecoration(label: Text("type Name here")),
               ),
               TextField(
-                keyboardType: TextInputType.number, //https://stackoverflow.com/questions/49577781/how-to-create-number-input-field-in-flutter
+                keyboardType: TextInputType
+                    .number, //https://stackoverflow.com/questions/49577781/how-to-create-number-input-field-in-flutter
                 onChanged: (value) {
                   setState(() {
                     price = value;
                   });
                 },
                 controller: _priceInputController,
-                decoration: const InputDecoration(label: Text("type Price here")),
+                decoration:
+                    const InputDecoration(label: Text("type Price here")),
               )
             ]),
             actions: <Widget>[
@@ -73,7 +76,8 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
                 onPressed: () {
                   setState(() {
                     Navigator.pop(context);
-                    _priceInputController.clear(); //clear text fields after cancel
+                    _priceInputController
+                        .clear(); //clear text fields after cancel
                     _nameInputController.clear();
                   });
                 },
@@ -94,7 +98,7 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
 
   final _itemSet = <Squirrel>{};
 
-  void _handleListChanged(Squirrel item, bool completed) {
+  void _handleSquirrelSelling(Squirrel item, bool completed) {
     setState(() {
       // When a user changes what's in the list, you need
       // to change _itemSet inside a setState call to
@@ -137,26 +141,27 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Squirrel Shopping Catalogue'),
-        ),
-        body: ListView(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          children: items.map((item) {
-            return SquirrelItem(
-              item: item,
-              //sold: _handleSoldSquirrel,
-              completed: _itemSet.contains(item),
-              onListChanged: _handleListChanged,
-              onDeleteItem: _handleDeleteItem,
-            );
-          }).toList(),
-        ),
-        floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.add),
-            onPressed: () {
-              _displayTextInputDialog(context);
-            }));
+      appBar: AppBar(
+        title: const Text('Squirrel Shopping Catalogue'),
+      ),
+      body: ListView(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        children: items.map((item) {
+          return SquirrelItem(
+            item: item,
+            //sold: _handleSoldSquirrel,
+            sold: _itemSet.contains(item),
+            onListChanged: _handleSquirrelSelling,
+            onDeleteItem: _handleDeleteItem,
+          );
+        }).toList(),
+      ),
+      floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.add),
+          onPressed: () {
+            _displayTextInputDialog(context);
+          }),
+    );
   }
 }
 

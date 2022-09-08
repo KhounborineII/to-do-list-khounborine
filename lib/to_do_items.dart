@@ -19,14 +19,14 @@ typedef ToDoListRemovedCallback = Function(Squirrel item);
 class SquirrelItem extends StatelessWidget {
   SquirrelItem(
       {required this.item,
-      required this.completed,
+      required this.sold,
       //required this.sold, //sold squirrel
       required this.onListChanged,
       required this.onDeleteItem})
       : super(key: ObjectKey(item));
 
   final Squirrel item;
-  final bool completed;
+  final bool sold;
   //final bool sold; //sold squirrel
   final ToDoListChangedCallback onListChanged;
   final ToDoListRemovedCallback onDeleteItem;
@@ -37,13 +37,13 @@ class SquirrelItem extends StatelessWidget {
     // The BuildContext indicates where the build is
     // taking place and therefore which theme to use.
 
-    return completed //
+    return sold //
         ? Colors.black54 //color changed to black54 for test
         : Theme.of(context).primaryColor;
   }
 
   TextStyle? _getTextStyle(BuildContext context) {
-    if (!completed) return null;
+    if (!sold) return null;
 
     return const TextStyle(
       color: Colors.black54,
@@ -51,27 +51,34 @@ class SquirrelItem extends StatelessWidget {
     );
   }
 
+  Text _getSubtitle(BuildContext context) {
+    if (!sold) {
+      return Text(item.price.toString());
+    } else {
+      return Text("SOLD");
+    }
+    ;
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {
-        onListChanged(item, completed);
-      },
-      onLongPress: () {
-        //delete item after long press
-        onDeleteItem(item);
-      },
-      leading: CircleAvatar(
-        backgroundColor: _getColor(context),
-        child: Text(item.abbrev()), //text of circle is abbreviation
-      ),
-      title: Text(
-        item.name, //item text is the Item's name
-        style: _getTextStyle(context),
-      ),
-      subtitle:Text(
-        item.price.toString()
-      )
-      );
+        onTap: () {
+          onListChanged(item, sold);
+        },
+        onLongPress: () {
+          //delete item after long press
+          onDeleteItem(item);
+        },
+        leading: CircleAvatar(
+          backgroundColor: _getColor(context),
+          child: Text(item.abbrev()), //text of circle is abbreviation
+        ),
+        title: Text(
+          item.name, //item text is the Item's name
+          style: _getTextStyle(context),
+        ),
+        subtitle: _getSubtitle(context));
+    //Text(item.price.toString()));
   }
 }

@@ -23,7 +23,7 @@ void main() {
         home: Scaffold(
             body: SquirrelItem(
                 item: const Squirrel(name: "test", price: 4),
-                completed: true,
+                sold: true,
                 onListChanged: (Squirrel item, bool completed) {},
                 onDeleteItem: (Squirrel item) {}))));
     final textFinder = find.text('test');
@@ -39,7 +39,7 @@ void main() {
         home: Scaffold(
             body: SquirrelItem(
                 item: const Squirrel(name: "test", price: 0),
-                completed: true,
+                sold: true,
                 onListChanged: (Squirrel item, bool completed) {},
                 onDeleteItem: (Squirrel item) {}))));
     final abbvFinder = find.text('t');
@@ -55,15 +55,16 @@ void main() {
     expect(ctext.data, "t");
   });
 
-  testWidgets('Default SquirrelCatalogue has three items', (tester) async { 
+  testWidgets('Default SquirrelCatalogue has three items', (tester) async {
     await tester.pumpWidget(const MaterialApp(home: SquirrelShopping()));
 
     final listItemFinder = find.byType(SquirrelItem);
 
-    expect(listItemFinder, findsNWidgets(3)); 
+    expect(listItemFinder, findsNWidgets(3));
   });
 
-  testWidgets('Clicking and Typing adds item to Squirrel Catalogue', (tester) async {
+  testWidgets('Clicking and Typing adds item to Squirrel Catalogue',
+      (tester) async {
     await tester.pumpWidget(const MaterialApp(home: SquirrelShopping()));
 
     expect(find.byType(TextField), findsNothing);
@@ -72,9 +73,13 @@ void main() {
     await tester.pump(); // Pump after every action to rebuild the widgets
     expect(find.text("hi"), findsNothing);
 
-    await tester.enterText(find.byType(TextField), 'hi');
+    await tester.enterText(
+        find.widgetWithText(TextField, "type Name here"), 'Test squirrel');
     await tester.pump();
-    expect(find.text("hi"), findsOneWidget);
+    await tester.enterText(
+        find.widgetWithText(TextField, "type Price here"), 5.toString());
+    await tester.pump();
+    expect(find.text("Test Squirrel"), findsOneWidget);
 
     await tester.tap(find.byKey(const Key("OKButton")));
     await tester.pump();
@@ -82,8 +87,16 @@ void main() {
 
     final listItemFinder = find.byType(SquirrelItem);
 
-    expect(listItemFinder, findsNWidgets(4)); //catalogue initialized with 3 squirrels
+    expect(listItemFinder,
+        findsNWidgets(4)); //catalogue initialized with 3 squirrels
   });
 
   // One to test the tap and press actions on the items?
+  testWidgets("Adding Squirrel", (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: SquirrelShopping()));
+    expect(find.byType(TextField), findsNothing);
+
+    await tester.tap(find.widgetWithText(TextField, "type Name here"));
+    expect(find.text("type Name here"), findsOneWidget);
+  });
 }
