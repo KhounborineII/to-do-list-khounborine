@@ -84,6 +84,30 @@ void main() {
 
     expect(listItemFinder, findsNWidgets(2));
   });
-
   // One to test the tap and press actions on the items?
+  testWidgets('Marking an item complete adds one to the completed counter',
+      (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: ToDoList()));
+
+    final listItemFinder = find.byType(ToDoListItem);
+
+    expect(listItemFinder, findsOneWidget);
+
+    final titleFinder0 = find.text("Items completed: 0");
+
+    expect(titleFinder0, findsOneWidget);
+
+    await tester.tap(find.text("add more todos"));
+    await tester.pump();
+
+    final titleFinder1 = find.text("Items completed: 1");
+
+    expect(titleFinder1, findsOneWidget);
+
+    await tester.tap(find.text("add more todos"));
+    await tester.pump();
+
+    expect(titleFinder1, findsOneWidget);
+  });
+
 }
