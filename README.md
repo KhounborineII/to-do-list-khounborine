@@ -21,7 +21,4 @@ Another feature is that if you have a task in mind that you want to do, it will 
 
 ![Screenshot 3](/img/SS3.png)
 
-* Who is the audience for this app
-* What the app does
-* Why the app is useful
-* Multiple Screenshots of your app
+Consider To Do or Not To Do to be your next To-Do app.
