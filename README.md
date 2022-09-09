@@ -1,20 +1,25 @@
-# To Don't List
+# To Do or Not To Do
+
+This project is licensed under the terms of the MIT license.
 
 A Flutter Demo project.
 
-## Edit Me
+## Description
 
-This is the file you should edit to describe your modified app.
+Do you ever get indecisive on what to do in a to do list?
+Do you ever want an app that just tells you what to do?
+An app that gives you ideas?
+Then this app is the app for you.
 
-A README.md is written using [Markdown](https://www.markdownguide.org/), a simple language for formatting text that can be rendered as a web page. This README.md information will be displayed on the GitHub main page for your repository. Here is a resource specifically for Markdown syntax and GitHub.
+![Screenshot 1](/img/SS1.png)
 
-* <https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax>
+To Do or Not To Do is an app that gives the user the option to get a random prediction, task, or warning for times when it is too hard to think of things to add to your To-Do list.
 
-Now, with a text editor on your cloned repository, or by clicking on the edit icon ✏️ on the main github.com page for your forked repository, edit the README.md file in the root directory to provide details about your app’s functionality. Be sure to follow the guidelines of the GitHub documentation on what to include in your README.md file.
+![Screenshot 2](/img/SS2.png)
 
-* <https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes>
+Another feature is that if you have a task in mind that you want to do, it will let you know if it thinks you should do that task.
 
-The most important pieces to include right now are
+![Screenshot 3](/img/SS3.png)
 
 * Who is the audience for this app
 * What the app does
