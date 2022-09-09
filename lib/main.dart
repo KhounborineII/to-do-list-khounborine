@@ -1,7 +1,10 @@
 // Started with https://docs.flutter.dev/development/ui/widgets-intro
 import 'package:flutter/material.dart';
 import 'package:to_dont_list/to_do_items.dart';
+import 'package:to_dont_list/predict_task_warn.dart';
 import 'dart:math';
+
+List<Item> items = [const Item(name: "add more todos")];
 
 class ToDoList extends StatefulWidget {
   const ToDoList({super.key});
@@ -20,21 +23,17 @@ class DecisionMaker extends StatefulWidget {
 class _DecisionMakerState extends State<DecisionMaker> {
   final _random = new Random();
   int _max = 3;
-  int _rolled = 0;
+  int _rolled1 = 0;
+  int _rolled2 = 0;
   String answer = "Click Me";
+  predict_task_warn predictTaskWarn = new predict_task_warn();
 
   void _randomInRange() {
     setState(() {
-      _rolled = _random.nextInt(_max);
-      if (_rolled == 0) {
-        answer = "No";
-      }
-      if (_rolled == 1) {
-        answer = "Yes";
-      }
-      if (_rolled == 2) {
-        answer = "Maybe";
-      }
+      _rolled1 = _random.nextInt(_max);
+      _rolled2 = _random.nextInt(_max);
+      Item item = Item(name: (predictTaskWarn.ptw(_rolled1, _rolled2)));
+      items.insert(0, item);
     });
   }
 
@@ -42,7 +41,7 @@ class _DecisionMakerState extends State<DecisionMaker> {
   Widget build(BuildContext context) {
     return BottomAppBar(
         child: TextButton(
-            onPressed: _randomInRange, child: Text("Should I?: $answer")));
+            onPressed: _randomInRange, child: Text("No Ideas?: $answer")));
   }
 }
 
@@ -56,6 +55,16 @@ class _ToDoListState extends State<ToDoList> {
 
   Future<void> _displayTextInputDialog(BuildContext context) async {
     print("Loading Dialog");
+    final _random = new Random();
+    var _magic8 = [
+      "- Yes, Definitely",
+      "- Without a Doubt",
+      "- Signs Point to Yes",
+      "- Maybe",
+      "- Outlook not so good",
+      "- Very Doubtful"
+    ];
+
     return showDialog(
         context: context,
         builder: (context) {
@@ -78,7 +87,7 @@ class _ToDoListState extends State<ToDoList> {
                 child: const Text('OK'),
                 onPressed: () {
                   setState(() {
-                    _handleNewItem(valueText);
+                    _handleNewItem(valueText + _magic8[_random.nextInt(6)]);
                     Navigator.pop(context);
                     valueText = "";
                   });
@@ -107,8 +116,6 @@ class _ToDoListState extends State<ToDoList> {
   }
 
   String valueText = "";
-
-  final List<Item> items = [const Item(name: "add more todos")];
 
   final _itemSet = <Item>{};
 
@@ -159,6 +166,7 @@ class _ToDoListState extends State<ToDoList> {
         title: Text('Items completed: $numCompleted'),
       ),
       body: ListView(
+        key: ObjectKey(items.first),
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         children: items.map((item) {
           return ToDoListItem(
@@ -174,7 +182,7 @@ class _ToDoListState extends State<ToDoList> {
           onPressed: () {
             _displayTextInputDialog(context);
           }),
-      bottomNavigationBar: const DecisionMaker(),
+      bottomNavigationBar: DecisionMaker(),
     );
   }
 }
