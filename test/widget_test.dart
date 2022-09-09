@@ -10,6 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:to_dont_list/main.dart';
 import 'package:to_dont_list/to_do_items.dart';
+import 'package:to_dont_list/predict_task_warn.dart';
 
 void main() {
   test('Item abbreviation should be first letter', () {
@@ -108,5 +109,12 @@ void main() {
     await tester.pump();
 
     expect(titleFinder1, findsOneWidget);
+  });
+
+  testWidgets('Giving 2 ints to predictTaskWarn returns a string',
+      (tester) async {
+    String result = predict_task_warn().ptw(2, 1);
+
+    expect(result, "Practice self-care");
   });
 }
