@@ -12,9 +12,9 @@ import 'package:to_dont_list/main.dart';
 import 'package:to_dont_list/to_do_items.dart';
 
 void main() {
-  test('Item abbreviation should be first letter', () {
-    const item = Item(name: "add more todos");
-    expect(item.abbrev(), "a");
+  test('Character abbreviation should be first letter', () {
+    Character c = Character(name: "Lennox");
+    expect(c.abbrev(), "L");
   });
 
   // Yes, you really need the MaterialApp and Scaffold
