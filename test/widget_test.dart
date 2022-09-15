@@ -32,7 +32,7 @@ void main() {
     expect(textFinder, findsOneWidget);
   });
 
-  testWidgets('ToDoListItem has a Circle Avatar with abbreviation',
+  testWidgets('CharacterListItem has a Circle Avatar with abbreviation',
       (tester) async {
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(
@@ -49,19 +49,11 @@ void main() {
     // Use the `findsOneWidget` matcher provided by flutter_test to verify
     // that the Text widgets appear exactly once in the widget tree.
     expect(abbvFinder, findsOneWidget);
-    expect(circ.backgroundColor, Colors.black54);
     expect(ctext.data, "t");
   });
 
-  testWidgets('Default CharacterList has one item', (tester) async {
-    await tester.pumpWidget(const MaterialApp(home: CharacterList()));
-
-    final listItemFinder = find.byType(CharacterListItem);
-
-    expect(listItemFinder, findsOneWidget);
-  });
-
-  testWidgets('Clicking and Typing adds item to CharacterList', (tester) async {
+  testWidgets('Clicking and Typing adds character to CharacterList',
+      (tester) async {
     await tester.pumpWidget(const MaterialApp(home: CharacterList()));
 
     expect(find.byType(TextField), findsNothing);
@@ -78,9 +70,9 @@ void main() {
     await tester.pump();
     expect(find.text("hi"), findsOneWidget);
 
-    final listItemFinder = find.byType(CharacterListItem);
+    final listCharFinder = find.byType(CharacterListItem);
 
-    expect(listItemFinder, findsNWidgets(2));
+    expect(listCharFinder, findsNWidgets(2));
   });
 
   // One to test the tap and press actions on the items?
