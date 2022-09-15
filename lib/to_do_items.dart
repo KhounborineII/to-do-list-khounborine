@@ -44,25 +44,11 @@ class Character {
     b = c;
   }
 
-  List<int> bubbleSort(List<int> ints) {
-    bool sorted = false;
-    while (!sorted) {
-      sorted = true;
-      for (int i = 0; i < stats.length - 1; i++) {
-        if (stats[i] > stats[i] + 1) {
-          swap(stats[i], stats[i] + 1);
-          sorted = false;
-        }
-      }
-    }
-    return ints;
-  }
-
   void populateStats() {
     for (int i = 0; i < stats.length; i++) {
       stats[i] = getStat();
     }
-    stats = bubbleSort(stats);
+    stats.sort();
   }
 
   String printStats() {

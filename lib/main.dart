@@ -1,5 +1,4 @@
 // Started with https://docs.flutter.dev/development/ui/widgets-intro
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:to_dont_list/to_do_items.dart';
 
@@ -24,7 +23,7 @@ class _CharacterListState extends State<CharacterList> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text('Item To Add'),
+            title: const Text('New Character'),
             content: TextField(
               onChanged: (value) {
                 setState(() {
@@ -33,7 +32,7 @@ class _CharacterListState extends State<CharacterList> {
               },
               controller: _inputController,
               decoration:
-                  const InputDecoration(hintText: "type something here"),
+                  const InputDecoration(hintText: "enter character name"),
             ),
             actions: <Widget>[
               ElevatedButton(
