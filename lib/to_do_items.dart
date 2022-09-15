@@ -1,3 +1,9 @@
+// Citations
+// Getting sum and min from list: https://stackoverflow.com/a/68603277
+
+import 'dart:math';
+// ignore: depend_on_referenced_packages
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 class Item {
@@ -7,6 +13,35 @@ class Item {
 
   String abbrev() {
     return name.substring(0, 1);
+  }
+}
+
+class Character {
+  Character({required this.name});
+
+  final String name;
+  List<int> stats = [0, 0, 0, 0, 0, 0];
+
+  String abbrev() {
+    return name.substring(0, 2);
+  }
+
+  int diceRoll() {
+    Random r = Random();
+    return r.nextInt(6) + 1;
+  }
+
+  int getStat() {
+    List<int> rolls = [diceRoll(), diceRoll(), diceRoll(), diceRoll()];
+    int sum = rolls.sum;
+    int min = rolls.min;
+    return sum - min;
+  }
+
+  void populateStats() {
+    for (int i = 0; i < stats.length; i++) {
+      stats[i] = getStat();
+    }
   }
 }
 
