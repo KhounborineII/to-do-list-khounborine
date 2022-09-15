@@ -23,7 +23,7 @@ class Character {
   List<int> stats = [0, 0, 0, 0, 0, 0];
 
   String abbrev() {
-    return name.substring(0, 2);
+    return name.substring(0, 1);
   }
 
   int diceRoll() {
@@ -38,28 +38,56 @@ class Character {
     return sum - min;
   }
 
+  void swap(int a, int b) {
+    int c = a;
+    a = b;
+    b = c;
+  }
+
+  List<int> bubbleSort(List<int> ints) {
+    bool sorted = false;
+    while (!sorted) {
+      sorted = true;
+      for (int i = 0; i < stats.length - 1; i++) {
+        if (stats[i] > stats[i] + 1) {
+          swap(stats[i], stats[i] + 1);
+          sorted = false;
+        }
+      }
+    }
+    return ints;
+  }
+
   void populateStats() {
     for (int i = 0; i < stats.length; i++) {
       stats[i] = getStat();
     }
+    stats = bubbleSort(stats);
+  }
+
+  String printStats() {
+    String s = "";
+    for (int i = 0; i < stats.length; i++) {
+      String num = stats[i].toString();
+      s += "$num\n";
+    }
+    return s;
   }
 }
 
-typedef ToDoListChangedCallback = Function(Item item, bool completed);
-typedef ToDoListRemovedCallback = Function(Item item);
+typedef CharacterListChangedCallback = Function(Character c);
+typedef CharacterListRemovedCallback = Function(Character c);
 
-class ToDoListItem extends StatelessWidget {
-  ToDoListItem(
-      {required this.item,
-      required this.completed,
+class CharacterListItem extends StatelessWidget {
+  CharacterListItem(
+      {required this.c,
       required this.onListChanged,
       required this.onDeleteItem})
-      : super(key: ObjectKey(item));
+      : super(key: ObjectKey(c));
 
-  final Item item;
-  final bool completed;
-  final ToDoListChangedCallback onListChanged;
-  final ToDoListRemovedCallback onDeleteItem;
+  final Character c;
+  final CharacterListChangedCallback onListChanged;
+  final CharacterListRemovedCallback onDeleteItem;
 
   Color _getColor(BuildContext context) {
     // The theme depends on the BuildContext because different
@@ -67,37 +95,38 @@ class ToDoListItem extends StatelessWidget {
     // The BuildContext indicates where the build is
     // taking place and therefore which theme to use.
 
-    return completed //
-        ? Colors.black54
-        : Theme.of(context).primaryColor;
+    return Theme.of(context).primaryColor;
   }
 
   TextStyle? _getTextStyle(BuildContext context) {
-    if (!completed) return null;
-
-    return const TextStyle(
-      color: Colors.black54,
-      decoration: TextDecoration.lineThrough,
-    );
+    return const TextStyle(color: Colors.black54);
   }
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {
-        onListChanged(item, completed);
+      onTap: () => showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: Text(c.name),
+          content: Text(c.printStats()),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'OK'),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      ),
+      onLongPress: () {
+        onDeleteItem(c);
       },
-      onLongPress: completed
-          ? () {
-              onDeleteItem(item);
-            }
-          : null,
       leading: CircleAvatar(
         backgroundColor: _getColor(context),
-        child: Text(item.abbrev()),
+        child: Text(c.abbrev()),
       ),
       title: Text(
-        item.name,
+        c.name,
         style: _getTextStyle(context),
       ),
     );

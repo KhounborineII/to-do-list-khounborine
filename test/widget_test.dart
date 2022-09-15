@@ -21,11 +21,10 @@ void main() {
   testWidgets('ToDoListItem has a text', (tester) async {
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(
-            body: ToDoListItem(
-                item: const Item(name: "test"),
-                completed: true,
-                onListChanged: (Item item, bool completed) {},
-                onDeleteItem: (Item item) {}))));
+            body: CharacterListItem(
+                c: Character(name: "test"),
+                onListChanged: (Character c) {},
+                onDeleteItem: (Character c) {}))));
     final textFinder = find.text('test');
 
     // Use the `findsOneWidget` matcher provided by flutter_test to verify
@@ -37,11 +36,10 @@ void main() {
       (tester) async {
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(
-            body: ToDoListItem(
-                item: const Item(name: "test"),
-                completed: true,
-                onListChanged: (Item item, bool completed) {},
-                onDeleteItem: (Item item) {}))));
+            body: CharacterListItem(
+                c: Character(name: "test"),
+                onListChanged: (Character c) {},
+                onDeleteItem: (Character c) {}))));
     final abbvFinder = find.text('t');
     final avatarFinder = find.byType(CircleAvatar);
 
@@ -55,16 +53,16 @@ void main() {
     expect(ctext.data, "t");
   });
 
-  testWidgets('Default ToDoList has one item', (tester) async {
-    await tester.pumpWidget(const MaterialApp(home: ToDoList()));
+  testWidgets('Default CharacterList has one item', (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: CharacterList()));
 
-    final listItemFinder = find.byType(ToDoListItem);
+    final listItemFinder = find.byType(CharacterListItem);
 
     expect(listItemFinder, findsOneWidget);
   });
 
-  testWidgets('Clicking and Typing adds item to ToDoList', (tester) async {
-    await tester.pumpWidget(const MaterialApp(home: ToDoList()));
+  testWidgets('Clicking and Typing adds item to CharacterList', (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: CharacterList()));
 
     expect(find.byType(TextField), findsNothing);
 
@@ -80,7 +78,7 @@ void main() {
     await tester.pump();
     expect(find.text("hi"), findsOneWidget);
 
-    final listItemFinder = find.byType(ToDoListItem);
+    final listItemFinder = find.byType(CharacterListItem);
 
     expect(listItemFinder, findsNWidgets(2));
   });

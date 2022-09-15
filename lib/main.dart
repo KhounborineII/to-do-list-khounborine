@@ -1,15 +1,16 @@
 // Started with https://docs.flutter.dev/development/ui/widgets-intro
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:to_dont_list/to_do_items.dart';
 
-class ToDoList extends StatefulWidget {
-  const ToDoList({super.key});
+class CharacterList extends StatefulWidget {
+  const CharacterList({super.key});
 
   @override
-  State createState() => _ToDoListState();
+  State createState() => _CharacterListState();
 }
 
-class _ToDoListState extends State<ToDoList> {
+class _CharacterListState extends State<CharacterList> {
   // Dialog with text from https://www.appsdeveloperblog.com/alert-dialog-with-a-text-field-in-flutter/
   final TextEditingController _inputController = TextEditingController();
   final ButtonStyle yesStyle = ElevatedButton.styleFrom(
@@ -72,11 +73,11 @@ class _ToDoListState extends State<ToDoList> {
 
   String valueText = "";
 
-  final List<Item> items = [const Item(name: "add more todos")];
+  final List<Character> chars = [];
 
-  final _itemSet = <Item>{};
+  final _charSet = <Character>{};
 
-  void _handleListChanged(Item item, bool completed) {
+  void _handleListChanged(Character c) {
     setState(() {
       // When a user changes what's in the list, you need
       // to change _itemSet inside a setState call to
@@ -84,31 +85,27 @@ class _ToDoListState extends State<ToDoList> {
       // The framework then calls build, below,
       // which updates the visual appearance of the app.
 
-      items.remove(item);
-      if (!completed) {
-        print("Completing");
-        _itemSet.add(item);
-        items.add(item);
-      } else {
-        print("Making Undone");
-        _itemSet.remove(item);
-        items.insert(0, item);
-      }
+      chars.remove(c);
+      print("Making Undone");
+      _charSet.remove(c);
+      chars.insert(0, c);
     });
   }
 
-  void _handleDeleteItem(Item item) {
+  void _handleDeleteItem(Character c) {
     setState(() {
       print("Deleting item");
-      items.remove(item);
+      chars.remove(c);
     });
   }
 
-  void _handleNewItem(String itemText) {
+  void _handleNewItem(String charText) {
     setState(() {
       print("Adding new item");
-      Item item = Item(name: itemText);
-      items.insert(0, item);
+      Character c = Character(name: charText);
+      c.populateStats();
+      print(c.stats.toString());
+      chars.insert(0, c);
       _inputController.clear();
     });
   }
@@ -117,14 +114,13 @@ class _ToDoListState extends State<ToDoList> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('To Do List'),
+          title: const Text('DnD Character List'),
         ),
         body: ListView(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
-          children: items.map((item) {
-            return ToDoListItem(
-              item: item,
-              completed: _itemSet.contains(item),
+          children: chars.map((c) {
+            return CharacterListItem(
+              c: c,
               onListChanged: _handleListChanged,
               onDeleteItem: _handleDeleteItem,
             );
@@ -140,7 +136,7 @@ class _ToDoListState extends State<ToDoList> {
 
 void main() {
   runApp(const MaterialApp(
-    title: 'To Do List',
-    home: ToDoList(),
+    title: 'DnD Character List',
+    home: CharacterList(),
   ));
 }
