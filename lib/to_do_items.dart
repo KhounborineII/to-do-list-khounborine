@@ -26,27 +26,18 @@ class Character {
     return name.substring(0, 1);
   }
 
-  int diceRoll() {
-    Random r = Random();
-    return r.nextInt(6) + 1;
-  }
-
-  int getStat() {
-    List<int> rolls = [diceRoll(), diceRoll(), diceRoll(), diceRoll()];
-    int sum = rolls.sum;
-    int min = rolls.min;
-    return sum - min;
-  }
-
-  void swap(int a, int b) {
-    int c = a;
-    a = b;
-    b = c;
-  }
-
   void populateStats() {
+    Random r = Random();
     for (int i = 0; i < stats.length; i++) {
-      stats[i] = getStat();
+      List<int> rolls = [
+        r.nextInt(6) + 1,
+        r.nextInt(6) + 1,
+        r.nextInt(6) + 1,
+        r.nextInt(6) + 1
+      ];
+      int sum = rolls.sum;
+      int min = rolls.min;
+      stats[i] = sum - min;
     }
     stats.sort();
   }
