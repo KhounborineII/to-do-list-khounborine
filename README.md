@@ -1,7 +1,5 @@
 # To Do or Not To Do
 
-This project is licensed under the terms of the MIT license.
-
 A Flutter Demo project.
 
 ## Description
