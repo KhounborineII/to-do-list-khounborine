@@ -9,3 +9,5 @@ This app is for basically anyone looking to make a DnD character who doesn't fee
 
 All of the characters you made are stored nicely in a list. You can then tap on a character to open up the rolls. They should be sorted from smallest to largest. You can then use these rolls to determine your main attributes on a character sheet.
 
+
+![image](https://user-images.githubusercontent.com/104210692/192415481-92feda0f-84fd-4e6b-901b-b6c85fed661d.png)
