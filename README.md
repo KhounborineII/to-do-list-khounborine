@@ -1,8 +1,8 @@
-# To Don't List
+# DnD Character Generator
 
-A Flutter Demo project.
+An app to generate and store your DnD Characters.
 
-## Edit Me
+## What It Does
 
 This is the file you should edit to describe your modified app.
 
