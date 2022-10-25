@@ -79,7 +79,8 @@ void main() {
 
     await tester.tap(find.byKey(const Key("OKButton")));
     await tester.pump();
-    expect(find.text("hi"), findsOneWidget);
+    //changed this due to changes Jonathon made with texts being added to items
+    expect(find.textContaining("hi"), findsOneWidget);
 
     final listItemFinder = find.byType(ToDoListItem);
 
