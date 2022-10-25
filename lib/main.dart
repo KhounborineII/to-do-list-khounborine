@@ -23,13 +23,10 @@ class DecisionMaker extends StatefulWidget {
   State createState() => _DecisionMakerState();
 }
 
+// removed code from here because the reason the screen wasnt changing is because the set state was here
 class _DecisionMakerState extends State<DecisionMaker> {
-  final _random = new Random();
-  int _max = 3;
-  int _rolled1 = 0;
-  int _rolled2 = 0;
   String answer = "Click Me";
-  predict_task_warn predictTaskWarn = new predict_task_warn();
+  predict_task_warn predictTaskWarn = predict_task_warn();
 
   @override
   Widget build(BuildContext context) {
@@ -153,16 +150,15 @@ class _ToDoListState extends State<ToDoList> {
     });
   }
 
+  // moved this from within it's class to here so the set state would call the correct build
   void _randomInRange() {
-    final _random = new Random();
-    int _max = 3;
-    int _rolled1 = 0;
-    int _rolled2 = 0;
-    predict_task_warn ptw = new predict_task_warn();
+    final randon = Random();
+    int max = 3;
+    predict_task_warn ptw = predict_task_warn();
+
     setState(() {
-      var _rolled1 = _random.nextInt(_max);
-      var _rolled2 = _random.nextInt(_max);
-      Item item = Item(name: (ptw.ptw(_rolled1, _rolled2)));
+      Item item =
+          Item(name: (ptw.ptw(randon.nextInt(max), randon.nextInt(max))));
       items.insert(0, item);
     });
   }
