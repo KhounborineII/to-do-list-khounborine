@@ -13,9 +13,12 @@ class ToDoList extends StatefulWidget {
   State createState() => _ToDoListState();
 }
 
-class DecisionMaker extends StatefulWidget {
-  const DecisionMaker({super.key});
+typedef ListAddCallback = Function();
 
+class DecisionMaker extends StatefulWidget {
+  const DecisionMaker({super.key, required this.onListAdd});
+
+  final ListAddCallback onListAdd;
   @override
   State createState() => _DecisionMakerState();
 }
@@ -28,20 +31,11 @@ class _DecisionMakerState extends State<DecisionMaker> {
   String answer = "Click Me";
   predict_task_warn predictTaskWarn = new predict_task_warn();
 
-  void _randomInRange() {
-    setState(() {
-      _rolled1 = _random.nextInt(_max);
-      _rolled2 = _random.nextInt(_max);
-      Item item = Item(name: (predictTaskWarn.ptw(_rolled1, _rolled2)));
-      items.insert(0, item);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
         child: TextButton(
-            onPressed: _randomInRange, child: Text("No Ideas?: $answer")));
+            onPressed: widget.onListAdd, child: Text("No Ideas?: $answer")));
   }
 }
 
@@ -159,31 +153,44 @@ class _ToDoListState extends State<ToDoList> {
     });
   }
 
+  void _randomInRange() {
+    final _random = new Random();
+    int _max = 3;
+    int _rolled1 = 0;
+    int _rolled2 = 0;
+    predict_task_warn ptw = new predict_task_warn();
+    setState(() {
+      var _rolled1 = _random.nextInt(_max);
+      var _rolled2 = _random.nextInt(_max);
+      Item item = Item(name: (ptw.ptw(_rolled1, _rolled2)));
+      items.insert(0, item);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Items completed: $numCompleted'),
-      ),
-      body: ListView(
-        key: ObjectKey(items.first),
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        children: items.map((item) {
-          return ToDoListItem(
-            item: item,
-            completed: _itemSet.contains(item),
-            onListChanged: _handleListChanged,
-            onDeleteItem: _handleDeleteItem,
-          );
-        }).toList(),
-      ),
-      floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.add),
-          onPressed: () {
-            _displayTextInputDialog(context);
-          }),
-      bottomNavigationBar: DecisionMaker(),
-    );
+        appBar: AppBar(
+          title: Text('Items completed: $numCompleted'),
+        ),
+        body: ListView(
+          key: ObjectKey(items.first),
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          children: items.map((item) {
+            return ToDoListItem(
+              item: item,
+              completed: _itemSet.contains(item),
+              onListChanged: _handleListChanged,
+              onDeleteItem: _handleDeleteItem,
+            );
+          }).toList(),
+        ),
+        floatingActionButton: FloatingActionButton(
+            child: const Icon(Icons.add),
+            onPressed: () {
+              _displayTextInputDialog(context);
+            }),
+        bottomNavigationBar: DecisionMaker(onListAdd: _randomInRange));
   }
 }
 
