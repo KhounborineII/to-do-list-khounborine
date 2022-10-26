@@ -19,8 +19,7 @@ class predict_task_warn {
     "Change is inevitable, except from vending machines"
   ];
 
-  String ptw(int s) {
-    Random rand = Random();
+  String ptw(int s, Random rand) {
     if (s == 0) {
       return predict[rand.nextInt(predict.length)];
     } else if (s == 1) {

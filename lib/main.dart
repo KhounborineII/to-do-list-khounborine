@@ -136,8 +136,9 @@ class _ToDoListState extends State<ToDoList> {
   // When you click on a bottom nav bar item, this goes into the predict_task_warn and creates the task
   void _onItemTapped(int index) {
     setState(() {
+      Random rand = Random();
       _selectedIndex = index;
-      String name = ptw.ptw(_selectedIndex);
+      String name = ptw.ptw(_selectedIndex, rand);
       Item item = Item(name: name);
       items.insert(0, item);
     });
