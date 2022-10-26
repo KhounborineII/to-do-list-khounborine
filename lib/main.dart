@@ -17,28 +17,6 @@ class ToDoList extends StatefulWidget {
 
 typedef ListAddCallback = Function();
 
-class DecisionMaker extends StatefulWidget {
-  const DecisionMaker({super.key, required this.onListAdd});
-
-  final ListAddCallback onListAdd;
-  @override
-  State createState() => _DecisionMakerState();
-}
-
-// removed code from here because the reason the screen wasnt changing is because the set state was here
-class _DecisionMakerState extends State<DecisionMaker> {
-  String answer = "Click Me";
-
-  predict_task_warn predictTaskWarn = predict_task_warn();
-
-  @override
-  Widget build(BuildContext context) {
-    return BottomAppBar(
-        child: TextButton(
-            onPressed: widget.onListAdd, child: Text("No Ideas?: $answer")));
-  }
-}
-
 class _ToDoListState extends State<ToDoList> {
   // Dialog with text from https://www.appsdeveloperblog.com/alert-dialog-with-a-text-field-in-flutter/
   final TextEditingController _inputController = TextEditingController();
@@ -207,7 +185,6 @@ class _ToDoListState extends State<ToDoList> {
           selectedItemColor: Colors.blue[800],
           onTap: _onItemTapped,
         ));
-    //DecisionMaker(onListAdd: _randomInRange));
   }
 }
 
