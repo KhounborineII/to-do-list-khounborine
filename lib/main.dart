@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:to_dont_list/to_do_items.dart';
 import 'package:to_dont_list/predict_task_warn.dart';
 import 'dart:math';
+import 'package:boxicons/boxicons.dart';
+import 'package:bootstrap_icons/bootstrap_icons.dart';
 
 List<Item> items = [const Item(name: "add more todos")];
 
@@ -26,6 +28,7 @@ class DecisionMaker extends StatefulWidget {
 // removed code from here because the reason the screen wasnt changing is because the set state was here
 class _DecisionMakerState extends State<DecisionMaker> {
   String answer = "Click Me";
+
   predict_task_warn predictTaskWarn = predict_task_warn();
 
   @override
@@ -43,6 +46,7 @@ class _ToDoListState extends State<ToDoList> {
       textStyle: const TextStyle(fontSize: 20), primary: Colors.green);
   final ButtonStyle noStyle = ElevatedButton.styleFrom(
       textStyle: const TextStyle(fontSize: 20), primary: Colors.red);
+  int _selectedIndex = 0;
 
   Future<void> _displayTextInputDialog(BuildContext context) async {
     print("Loading Dialog");
@@ -163,6 +167,13 @@ class _ToDoListState extends State<ToDoList> {
     });
   }
 
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+      if (_selectedIndex == 0) {}
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -186,7 +197,26 @@ class _ToDoListState extends State<ToDoList> {
             onPressed: () {
               _displayTextInputDialog(context);
             }),
-        bottomNavigationBar: DecisionMaker(onListAdd: _randomInRange));
+        bottomNavigationBar: BottomNavigationBar(
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Boxicons.bxs_brain),
+              label: 'Predict',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(BootstrapIcons.list_task),
+              label: 'Task',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.warning_amber),
+              label: 'Warn',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.blue[800],
+          onTap: _onItemTapped,
+        ));
+    //DecisionMaker(onListAdd: _randomInRange));
   }
 }
 
