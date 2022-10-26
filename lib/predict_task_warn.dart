@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:to_dont_list/to_do_items.dart';
 
@@ -17,13 +19,14 @@ class predict_task_warn {
     "Change is inevitable, except from vending machines"
   ];
 
-  String ptw(int s, int i) {
+  String ptw(int s) {
+    Random rand = Random();
     if (s == 0) {
-      return predict[i];
+      return predict[rand.nextInt(predict.length)];
     } else if (s == 1) {
-      return warn[i];
+      return warn[rand.nextInt(warn.length)];
     } else {
-      return task[i];
+      return task[rand.nextInt(task.length)];
     }
   }
 }

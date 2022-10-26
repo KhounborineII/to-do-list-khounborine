@@ -47,6 +47,7 @@ class _ToDoListState extends State<ToDoList> {
   final ButtonStyle noStyle = ElevatedButton.styleFrom(
       textStyle: const TextStyle(fontSize: 20), primary: Colors.red);
   int _selectedIndex = 0;
+  predict_task_warn ptw = predict_task_warn();
 
   Future<void> _displayTextInputDialog(BuildContext context) async {
     print("Loading Dialog");
@@ -154,23 +155,13 @@ class _ToDoListState extends State<ToDoList> {
     });
   }
 
-  // moved this from within it's class to here so the set state would call the correct build
-  void _randomInRange() {
-    final randon = Random();
-    int max = 3;
-    predict_task_warn ptw = predict_task_warn();
-
-    setState(() {
-      Item item =
-          Item(name: (ptw.ptw(randon.nextInt(max), randon.nextInt(max))));
-      items.insert(0, item);
-    });
-  }
-
+  // When you click on a bottom nav bar item, this goes into the predict_task_warn and creates the task
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      if (_selectedIndex == 0) {}
+      String name = ptw.ptw(_selectedIndex);
+      Item item = Item(name: name);
+      items.insert(0, item);
     });
   }
 
