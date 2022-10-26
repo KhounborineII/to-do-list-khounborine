@@ -5,6 +5,8 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -114,7 +116,8 @@ void main() {
 
   testWidgets('Giving 2 ints to predictTaskWarn returns a string',
       (tester) async {
-    String result = predict_task_warn().ptw(2, 1);
+    Random rand = Random();
+    String result = predict_task_warn().ptw(2, rand);
 
     expect(result, "Practice self-care");
   });
