@@ -167,6 +167,7 @@ class _ToDoListState extends State<ToDoList> {
             onPressed: () {
               _displayTextInputDialog(context);
             }),
+        //This where all of the predict things happen
         bottomNavigationBar: BottomNavigationBar(
           items: const [
             BottomNavigationBarItem(
@@ -182,6 +183,7 @@ class _ToDoListState extends State<ToDoList> {
               label: 'Warn',
             ),
           ],
+          //When an item gets selected we go into a function where we save the index and use that to create the tasks
           currentIndex: _selectedIndex,
           selectedItemColor: Colors.blue[800],
           onTap: _onItemTapped,
