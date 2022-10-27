@@ -151,7 +151,6 @@ class _ToDoListState extends State<ToDoList> {
           title: Text('Items completed: $numCompleted'),
         ),
         body: ListView(
-          key: ObjectKey(items.first),
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           children: items.map((item) {
             return ToDoListItem(
