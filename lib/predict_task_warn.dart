@@ -15,7 +15,7 @@ class predict_task_warn {
     "It is going to rain tonight.",
     "You will enjoy a cookie later.",
     "The night will be long for you.",
-    "You are going to ace your next text".,
+    "You are going to ace your next text."
   ];
   // Task Array
   final task = [
@@ -41,7 +41,6 @@ class predict_task_warn {
     "You think it’s a secret, but they know.",
     "An alien of some sort will be appearing to you shortly."
   ];
-
 
   //ptw now works by giving it the index, and then picking a random index from the list of the first index
   String ptw(int s, Random rand) {
