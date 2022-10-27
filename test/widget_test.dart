@@ -5,6 +5,8 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -79,7 +81,8 @@ void main() {
 
     await tester.tap(find.byKey(const Key("OKButton")));
     await tester.pump();
-    expect(find.text("hi"), findsOneWidget);
+    //changed this due to changes Jonathon made with texts being added to items
+    expect(find.textContaining("hi"), findsOneWidget);
 
     final listItemFinder = find.byType(ToDoListItem);
 
@@ -111,10 +114,12 @@ void main() {
     expect(titleFinder1, findsOneWidget);
   });
 
-  testWidgets('Giving 2 ints to predictTaskWarn returns a string',
+  testWidgets(
+      'Giving an int and a random number to predictTaskWarn returns a string',
       (tester) async {
-    String result = predict_task_warn().ptw(2, 1);
+    Random rand = Random();
+    String result = predict_task_warn().ptw(2, rand);
 
-    expect(result, "Practice self-care");
+    expect(result.runtimeType, String);
   });
 }

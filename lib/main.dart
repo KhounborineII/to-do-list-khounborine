@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:to_dont_list/to_do_items.dart';
 import 'package:to_dont_list/predict_task_warn.dart';
 import 'dart:math';
+import 'package:boxicons/boxicons.dart';
+import 'package:bootstrap_icons/bootstrap_icons.dart';
 
 List<Item> items = [const Item(name: "add more todos")];
 
@@ -13,37 +15,7 @@ class ToDoList extends StatefulWidget {
   State createState() => _ToDoListState();
 }
 
-class DecisionMaker extends StatefulWidget {
-  const DecisionMaker({super.key});
-
-  @override
-  State createState() => _DecisionMakerState();
-}
-
-class _DecisionMakerState extends State<DecisionMaker> {
-  final _random = new Random();
-  int _max = 3;
-  int _rolled1 = 0;
-  int _rolled2 = 0;
-  String answer = "Click Me";
-  predict_task_warn predictTaskWarn = new predict_task_warn();
-
-  void _randomInRange() {
-    setState(() {
-      _rolled1 = _random.nextInt(_max);
-      _rolled2 = _random.nextInt(_max);
-      Item item = Item(name: (predictTaskWarn.ptw(_rolled1, _rolled2)));
-      items.insert(0, item);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return BottomAppBar(
-        child: TextButton(
-            onPressed: _randomInRange, child: Text("No Ideas?: $answer")));
-  }
-}
+typedef ListAddCallback = Function();
 
 class _ToDoListState extends State<ToDoList> {
   // Dialog with text from https://www.appsdeveloperblog.com/alert-dialog-with-a-text-field-in-flutter/
@@ -52,6 +24,8 @@ class _ToDoListState extends State<ToDoList> {
       textStyle: const TextStyle(fontSize: 20), primary: Colors.green);
   final ButtonStyle noStyle = ElevatedButton.styleFrom(
       textStyle: const TextStyle(fontSize: 20), primary: Colors.red);
+  int _selectedIndex = 0;
+  predict_task_warn ptw = predict_task_warn();
 
   Future<void> _displayTextInputDialog(BuildContext context) async {
     print("Loading Dialog");
@@ -159,31 +133,61 @@ class _ToDoListState extends State<ToDoList> {
     });
   }
 
+  // When you click on a bottom nav bar item, this goes into the predict_task_warn and creates the task
+  void _onItemTapped(int index) {
+    setState(() {
+      Random rand = Random();
+      _selectedIndex = index;
+      String name = ptw.ptw(_selectedIndex, rand);
+      Item item = Item(name: name);
+      items.insert(0, item);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Items completed: $numCompleted'),
-      ),
-      body: ListView(
-        key: ObjectKey(items.first),
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        children: items.map((item) {
-          return ToDoListItem(
-            item: item,
-            completed: _itemSet.contains(item),
-            onListChanged: _handleListChanged,
-            onDeleteItem: _handleDeleteItem,
-          );
-        }).toList(),
-      ),
-      floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.add),
-          onPressed: () {
-            _displayTextInputDialog(context);
-          }),
-      bottomNavigationBar: DecisionMaker(),
-    );
+        appBar: AppBar(
+          title: Text('Items completed: $numCompleted'),
+        ),
+        body: ListView(
+          key: ObjectKey(items.first),
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          children: items.map((item) {
+            return ToDoListItem(
+              item: item,
+              completed: _itemSet.contains(item),
+              onListChanged: _handleListChanged,
+              onDeleteItem: _handleDeleteItem,
+            );
+          }).toList(),
+        ),
+        floatingActionButton: FloatingActionButton(
+            child: const Icon(Icons.add),
+            onPressed: () {
+              _displayTextInputDialog(context);
+            }),
+        //This where all of the predict things happen
+        bottomNavigationBar: BottomNavigationBar(
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Boxicons.bxs_brain),
+              label: 'Predict',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(BootstrapIcons.list_task),
+              label: 'Task',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.warning_amber),
+              label: 'Warn',
+            ),
+          ],
+          //When an item gets selected we go into a function where we save the index and use that to create the tasks
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.blue[800],
+          onTap: _onItemTapped,
+        ));
   }
 }
 
