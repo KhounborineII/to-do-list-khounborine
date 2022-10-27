@@ -93,10 +93,6 @@ void main() {
       (tester) async {
     await tester.pumpWidget(const MaterialApp(home: ToDoList()));
 
-    final listItemFinder = find.byType(ToDoListItem);
-
-    expect(listItemFinder, findsOneWidget);
-
     final titleFinder0 = find.text("Items completed: 0");
 
     expect(titleFinder0, findsOneWidget);
