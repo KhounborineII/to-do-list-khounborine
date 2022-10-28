@@ -17,9 +17,7 @@ typedef ToDoListChangedCallback = Function(Squirrel item, bool completed);
 
 class SquirrelItem extends StatelessWidget {
   SquirrelItem(
-      {required this.item,
-      required this.sold,
-      required this.onListChanged})
+      {required this.item, required this.sold, required this.onListChanged})
       : super(key: ObjectKey(item));
 
   final Squirrel item;
@@ -31,8 +29,9 @@ class SquirrelItem extends StatelessWidget {
     // parts of the tree can have different themes.
     // The BuildContext indicates where the build is
     // taking place and therefore which theme to use.
+    if (!sold) return Colors.blue;
 
-    return !sold //
+    return sold //
         ? Colors.black54 //color changed to black54 for test
         : Theme.of(context).primaryColor;
   }
