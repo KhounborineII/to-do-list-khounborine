@@ -14,9 +14,9 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
   final TextEditingController _nameInputController = TextEditingController();
   final TextEditingController _priceInputController = TextEditingController();
   final ButtonStyle yesStyle = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 20), primary: Colors.green);
+      textStyle: const TextStyle(fontSize: 20), backgroundColor: Colors.green);
   final ButtonStyle noStyle = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 20), primary: Colors.red);
+      textStyle: const TextStyle(fontSize: 20), backgroundColor: Colors.red);
 
   Future<void> _displayTextInputDialog(BuildContext context) async {
     print("Loading Dialog");
