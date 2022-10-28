@@ -32,7 +32,7 @@ class SquirrelItem extends StatelessWidget {
     // The BuildContext indicates where the build is
     // taking place and therefore which theme to use.
 
-    return sold //
+    return !sold //
         ? Colors.black54 //color changed to black54 for test
         : Theme.of(context).primaryColor;
   }
