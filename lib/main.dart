@@ -1,6 +1,7 @@
 // Started with https://docs.flutter.dev/development/ui/widgets-intro
 import 'package:flutter/material.dart';
 import 'package:to_dont_list/to_do_items.dart';
+import 'package:to_dont_list/astra.dart';
 
 class ToDoList extends StatefulWidget {
   const ToDoList({super.key});
@@ -200,10 +201,15 @@ class _ToDoListState extends State<ToDoList> {
           }).toList(),
         ),
         floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.add),
-            onPressed: () {
-              _displayTextInputDialog(context);
-            }));
+          child: const Icon(Icons.add),
+          //onPressed: () {
+          //  _displayTextInputDialog(context);
+          //}
+          onPressed: () => {
+            Navigator.push(
+                context, MaterialPageRoute(builder: ((context) => AstraPage())))
+          },
+        ));
   }
 }
 
