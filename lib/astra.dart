@@ -11,14 +11,18 @@ class AstraPage extends StatefulWidget {
 }
 
 String cardTitle = "";
+String cardText = "";
+String fortuneCommand = "";
 Color mainColor = Colors.black;
 Color iconColor = Colors.black;
 int generatedInt = 0;
 IconData arcana = Icons.wb_sunny;
+var random = Random();
+TextStyle titleStyle =
+    TextStyle(color: mainColor, fontWeight: FontWeight.w900, fontSize: 35);
 
 void generateRandomNumber() {
-  var random = Random();
-  generatedInt = random.nextInt(5) + 1;
+  generatedInt = random.nextInt(6) + 1;
   print(generatedInt);
 }
 
@@ -62,15 +66,143 @@ void generateCard() {
   }
 }
 
-TextStyle titleStyle =
-    TextStyle(color: mainColor, fontWeight: FontWeight.w900, fontSize: 35);
+void generateFortune() {
+  generatedInt = random.nextInt(3);
+  switch (cardTitle) {
+    case "The Balance":
+      switch (generatedInt) {
+        case 0:
+          cardText = "The Balance shines brightly! Make a new friend today.";
+          fortuneCommand = "Make a new friend";
+          break;
+
+        case 1:
+          cardText =
+              "The Balance brings good fortune. Perhaps it is time to invest.";
+          fortuneCommand = "Invest in the Market";
+          break;
+
+        case 2:
+          cardText =
+              "The Balance favors the bold! Risk big and Reap your rewards!";
+          fortuneCommand = "Gamble BIG";
+      }
+      break;
+
+    case "The Spire":
+      switch (generatedInt) {
+        case 0:
+          cardText =
+              "The Spire stands tall! Take a moment of reprieve, for you deserve it.";
+          fortuneCommand = "Meditate for 1 Hour";
+          break;
+
+        case 1:
+          cardText =
+              "The Spire looms closer, beware its anger! Protect yourself.";
+          fortuneCommand = "Wear comfortable clothes today";
+          break;
+
+        case 2:
+          cardText =
+              "The Spire seeks your resolve. Are you prepared to be tested?";
+          fortuneCommand = "Study while standing for 1 Hour";
+      }
+      break;
+
+    case "The Spear":
+      switch (generatedInt) {
+        case 0:
+          cardText = "The Spear calls you forth, eagerly! Prepare yourself!";
+          fortuneCommand = "Cardio for 1 Hour";
+          break;
+
+        case 1:
+          cardText = "The Spear swings wildly in rage! Match its anger!";
+          fortuneCommand = "Abdominal Exercises for 1 Hour";
+          break;
+
+        case 2:
+          cardText = "The Spear trains in solitude! Join in its struggle.";
+          fortuneCommand = "Lift weights with a friend for 1 Hour";
+      }
+      break;
+
+    case "The Arrow":
+      switch (generatedInt) {
+        case 0:
+          cardText =
+              "The Arrow shimmers in its quiver! One must be prepared to complete one's task.";
+          fortuneCommand = "Study for 1 Hour";
+          break;
+
+        case 1:
+          cardText =
+              "The Arrow is not alone on its journey; and neither are you!";
+          fortuneCommand = "Hang out with friends today";
+          break;
+
+        case 2:
+          cardText = "The Arrow reaches for its target! Reach it first.";
+          fortuneCommand = "Do 1 friendly deed today";
+      }
+      break;
+
+    case "The Ewer":
+      switch (generatedInt) {
+        case 0:
+          cardText =
+              "The Ewer is brimming full! Hydrate yourself in its splendor!";
+          fortuneCommand = "Drink some water";
+          break;
+
+        case 1:
+          cardText =
+              "The Ewer is half full or is it half empty?! Either way, cleanse thyself!";
+          fortuneCommand = "Take a Shower";
+          break;
+
+        case 2:
+          cardText = "The Ewer will cleanse all! Help it in its work!";
+          fortuneCommand = "Wash your hands";
+      }
+      break;
+
+    case "The Bole":
+      switch (generatedInt) {
+        case 0:
+          cardText = "The Bole brings great favor! Bring favor in return!";
+          fortuneCommand = "Go touch some grass";
+          break;
+
+        case 1:
+          cardText = "The Bole sprouts gloriously! Rejoice in its victory.";
+          fortuneCommand = "Pick some flowers";
+          break;
+
+        case 2:
+          cardText = "The Bole gives graciously! Give thanks to the generous.";
+          fortuneCommand = "Hug a Tree";
+      }
+      break;
+  }
+}
 
 class _AstraPage extends State<AstraPage> {
   @override
   void initState() {
     super.initState();
-    generateRandomNumber();
-    generateCard();
+    cardGeneration();
+  }
+
+  void cardGeneration() {
+    setState(() {
+      generateRandomNumber();
+      generateCard();
+      generateFortune();
+      titleStyle = TextStyle(
+          color: mainColor, fontWeight: FontWeight.w900, fontSize: 35);
+    });
   }
 
   @override
@@ -81,7 +213,35 @@ class _AstraPage extends State<AstraPage> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(cardTitle, style: titleStyle),
-        Icon(arcana, color: mainColor, size: 300)
+        Icon(arcana, color: mainColor, size: 300),
+        Padding(
+          padding: const EdgeInsets.only(top: 40, bottom: 20),
+          child: Text(
+            "$cardText\n Fortune: $fortuneCommand.",
+            style: const TextStyle(fontSize: 20),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: ElevatedButton(
+                    onPressed: cardGeneration,
+                    child: const Text("Give me Another"))),
+            Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: ElevatedButton(
+                    onPressed: () => {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: ((context) => ToDoList())))
+                        },
+                    child: const Text("Add to My List")))
+          ],
+        )
       ],
     )));
   }
