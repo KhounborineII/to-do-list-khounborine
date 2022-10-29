@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:to_dont_list/to_do_items.dart';
 import 'package:to_dont_list/astra.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class ToDoList extends StatefulWidget {
   const ToDoList({super.key});
@@ -200,15 +201,34 @@ class _ToDoListState extends State<ToDoList> {
             );
           }).toList(),
         ),
-        floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.add),
-          //onPressed: () {
-          //  _displayTextInputDialog(context);
-          //}
-          onPressed: () => {
-            Navigator.push(
-                context, MaterialPageRoute(builder: ((context) => AstraPage())))
-          },
+        floatingActionButton: SpeedDial(
+          icon: Icons.add,
+          backgroundColor: Colors.blue,
+          children: [
+            SpeedDialChild(
+                child: const Icon(
+                  Icons.person_add,
+                  color: Colors.white,
+                ),
+                label: "Add Personal Todo",
+                backgroundColor: Colors.blueAccent,
+                onTap: () {
+                  _displayTextInputDialog(context);
+                }),
+            SpeedDialChild(
+                child: const Icon(
+                  Icons.auto_awesome,
+                  color: Colors.yellow,
+                ),
+                label: "Add Arcana Todo",
+                backgroundColor: Colors.blueAccent,
+                onTap: () => {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) => AstraPage())))
+                    }),
+          ],
         ));
   }
 }
