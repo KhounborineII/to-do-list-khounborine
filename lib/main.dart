@@ -1,5 +1,6 @@
 // Started with https://docs.flutter.dev/development/ui/widgets-intro
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:to_dont_list/to_do_items.dart';
 
 class CharacterList extends StatefulWidget {
@@ -32,7 +33,7 @@ class _CharacterListState extends State<CharacterList> {
               },
               controller: _inputController,
               decoration:
-                  const InputDecoration(hintText: "enter character name"),
+                  const InputDecoration(hintText: "Enter character name"),
             ),
             actions: <Widget>[
               ElevatedButton(
@@ -126,7 +127,7 @@ class _CharacterListState extends State<CharacterList> {
           }).toList(),
         ),
         floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.add),
+            child: const FaIcon(FontAwesomeIcons.diceD20),
             onPressed: () {
               _displayTextInputDialog(context);
             }));
