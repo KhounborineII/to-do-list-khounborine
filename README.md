@@ -24,15 +24,12 @@ Let us see what we can do from here:
 Would you look at that! A new widget that extends the functionality of the FloatingActionButton. From here we have two options, Add an Arcana Todo or Add a Personal Todo to our Todo List. Let's try adding our own first:
 
 ### The Pop-Up and More
-![/assets/images/appshot4.PNG](/assets/images/appshot3.PNG)
-![/assets/images/appshot4.PNG](/assets/images/appshot4.PNG)
+![/assets/images/appshot4.PNG](/assets/images/appshot3.PNG) ![/assets/images/appshot4.PNG](/assets/images/appshot4.PNG)
 
 Great! Working as intended. Of course, the features of crossing out a Todo and deleting a Todo still exists. My previous addition of being able to edit an already created Todo is still here too! 
 
 ### Going through the Basics
-![/assets/images/appshot5.PNG](/assets/images/appshot5.PNG)
-![/assets/images/appshot6.PNG](/assets/images/appshot6.PNG)
-![/assets/images/appshot7.PNG](/assets/images/appshot7.PNG)
+![/assets/images/appshot5.PNG](/assets/images/appshot5.PNG) ![/assets/images/appshot6.PNG](/assets/images/appshot6.PNG) ![/assets/images/appshot7.PNG](/assets/images/appshot7.PNG)
 
 Besides the new Speed Dial Widget, this is where I originally ended, but wait! There's more! Its time to see what that Arcana Todo was:
 
