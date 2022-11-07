@@ -6,16 +6,6 @@ import 'dart:math';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
-class Item {
-  const Item({required this.name});
-
-  final String name;
-
-  String abbrev() {
-    return name.substring(0, 1);
-  }
-}
-
 class Character {
   Character({required this.name});
 
@@ -88,6 +78,10 @@ class CharacterListItem extends StatelessWidget {
           title: Text(c.name),
           content: Text(c.printStats()),
           actions: <Widget>[
+            TextButton(
+              onPressed: () => {c.populateStats(), Navigator.pop(context)},
+              child: const Text('Reroll'),
+            ),
             TextButton(
               onPressed: () => Navigator.pop(context, 'OK'),
               child: const Text('OK'),

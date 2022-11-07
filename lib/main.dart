@@ -43,6 +43,7 @@ class _CharacterListState extends State<CharacterList> {
                 onPressed: () {
                   setState(() {
                     Navigator.pop(context);
+                    _inputController.clear();
                   });
                 },
               ),
