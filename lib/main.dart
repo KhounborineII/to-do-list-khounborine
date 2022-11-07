@@ -80,12 +80,6 @@ class _CharacterListState extends State<CharacterList> {
 
   void _handleListChanged(Character c) {
     setState(() {
-      // When a user changes what's in the list, you need
-      // to change _itemSet inside a setState call to
-      // trigger a rebuild.
-      // The framework then calls build, below,
-      // which updates the visual appearance of the app.
-
       chars.remove(c);
       _charSet.remove(c);
       chars.insert(0, c);
