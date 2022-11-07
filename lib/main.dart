@@ -1,5 +1,6 @@
 // Started with https://docs.flutter.dev/development/ui/widgets-intro
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:to_dont_list/to_do_items.dart';
 
 class CharacterList extends StatefulWidget {
@@ -32,7 +33,7 @@ class _CharacterListState extends State<CharacterList> {
               },
               controller: _inputController,
               decoration:
-                  const InputDecoration(hintText: "enter character name"),
+                  const InputDecoration(hintText: "Enter character name"),
             ),
             actions: <Widget>[
               ElevatedButton(
@@ -42,6 +43,7 @@ class _CharacterListState extends State<CharacterList> {
                 onPressed: () {
                   setState(() {
                     Navigator.pop(context);
+                    _inputController.clear();
                   });
                 },
               ),
@@ -78,14 +80,7 @@ class _CharacterListState extends State<CharacterList> {
 
   void _handleListChanged(Character c) {
     setState(() {
-      // When a user changes what's in the list, you need
-      // to change _itemSet inside a setState call to
-      // trigger a rebuild.
-      // The framework then calls build, below,
-      // which updates the visual appearance of the app.
-
       chars.remove(c);
-      print("Making Undone");
       _charSet.remove(c);
       chars.insert(0, c);
     });
@@ -114,6 +109,7 @@ class _CharacterListState extends State<CharacterList> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('DnD Character List'),
+          backgroundColor: Colors.red,
         ),
         body: ListView(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -126,7 +122,7 @@ class _CharacterListState extends State<CharacterList> {
           }).toList(),
         ),
         floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.add),
+            child: const FaIcon(FontAwesomeIcons.diceD20),
             onPressed: () {
               _displayTextInputDialog(context);
             }));
@@ -134,8 +130,21 @@ class _CharacterListState extends State<CharacterList> {
 }
 
 void main() {
-  runApp(const MaterialApp(
+  runApp(MaterialApp(
     title: 'DnD Character List',
     home: CharacterList(),
+    theme: ThemeData(
+      brightness: Brightness.light,
+      primaryColor: Colors.red,
+      accentColor: Colors.deepOrangeAccent,
+      fontFamily: 'Georgia',
+
+      //text styling
+      textTheme: TextTheme(
+        headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+        headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+        bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+      ),
+    ),
   ));
 }
