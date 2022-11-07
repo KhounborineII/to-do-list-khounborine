@@ -61,6 +61,7 @@ void main() {
 
   testWidgets('Default ToDoList has one item', (tester) async {
     await tester.pumpWidget(const MaterialApp(home: ToDoList()));
+    await tester.pumpAndSettle(const Duration(seconds: 5));
 
     final listItemFinder = find.byType(ToDoListItem);
 
@@ -73,10 +74,10 @@ void main() {
     expect(find.byType(TextField), findsNothing);
 
     await tester.tap(find.byType(FloatingActionButton));
-    await tester.pump();
+    await tester.pumpAndSettle(const Duration(seconds: 5));
     // Pump after every action to rebuild the widgets
     await tester.tap(find.byIcon(Icons.person_add));
-    await tester.pump();
+    await tester.pumpAndSettle(const Duration(seconds: 5));
     expect(find.text("hi"), findsNothing);
 
     await tester.enterText(find.byType(TextField), 'hi');
@@ -125,8 +126,10 @@ void main() {
     expect(find.byType(TextField), findsNothing);
 
     await tester.tap(find.byType(FloatingActionButton));
-    await tester.pump(); // Pump after every action to rebuild the widgets
+    await tester.pumpAndSettle(const Duration(seconds: 5));
+    // Pump after every action to rebuild the widgets
     await tester.tap(find.byIcon(Icons.person_add));
+    await tester.pumpAndSettle(const Duration(seconds: 5));
     expect(find.text("hi"), findsNothing);
 
     await tester.enterText(find.byType(TextField), 'hi');
@@ -134,11 +137,54 @@ void main() {
     expect(find.text("hi"), findsOneWidget);
 
     await tester.tap(find.byKey(const Key("CancelButton")));
-    await tester.pump();
+    await tester.pumpAndSettle(const Duration(seconds: 5));
     expect(find.text("hi"), findsNothing);
 
     final listItemFinder = find.byType(ToDoListItem);
 
     expect(listItemFinder, findsNWidgets(1));
+  });
+
+  testWidgets('Arcana Page properly appears', (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: ToDoList()));
+
+    expect(find.byType(TextField), findsNothing);
+
+    await tester.tap(find.byType(FloatingActionButton));
+    await tester.pumpAndSettle(const Duration(seconds: 5));
+    // Pump after every action to rebuild the widgets
+    await tester.tap(find.byIcon(Icons.auto_awesome));
+    await tester.pumpAndSettle(const Duration(seconds: 5));
+    expect(find.byType(Icon), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key("AnotherCardButton")));
+    await tester.pumpAndSettle(const Duration(seconds: 5));
+    expect(find.byType(Icon), findsOneWidget);
+  });
+
+  testWidgets('Arcana Todos are properly added', (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: ToDoList()));
+
+    await tester.tap(find.byType(FloatingActionButton));
+    await tester.pumpAndSettle(const Duration(seconds: 5));
+    // Pump after every action to rebuild the widgets
+    await tester.tap(find.byIcon(Icons.auto_awesome));
+    await tester.pumpAndSettle(const Duration(seconds: 5));
+    expect(find.byType(ElevatedButton), findsNWidgets(2));
+
+    await tester.tap(find.byKey(const Key("ArcanaAddButton")));
+    await tester.pumpAndSettle(const Duration(seconds: 5));
+
+    final listItemFinder = find.byType(ToDoListItem);
+
+    expect(listItemFinder, findsNWidgets(1));
+
+    await tester.tap(find.byType(FloatingActionButton));
+    await tester.pumpAndSettle(const Duration(seconds: 5));
+    await tester.tap(find.byIcon(Icons.person_add));
+    await tester.pumpAndSettle(const Duration(seconds: 5));
+    await tester.tap(find.byKey(const Key("CancelButton")));
+    await tester.pumpAndSettle(const Duration(seconds: 5));
+    expect(listItemFinder, findsNWidgets(2));
   });
 }

@@ -231,11 +231,13 @@ class _AstraPage extends State<AstraPage> {
             Padding(
                 padding: const EdgeInsets.only(right: 10),
                 child: ElevatedButton(
+                    key: const Key("AnotherCardButton"),
                     onPressed: cardGeneration,
                     child: const Text("Give me Another"))),
             Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: ElevatedButton(
+                    key: const Key("ArcanaAddButton"),
                     onPressed: () => {
                           fortuneItem = Item(name: fortuneCommand),
                           widget.items.add(fortuneItem),
