@@ -11,7 +11,7 @@ As simple To Do List Application, the user can add new todos, cross off complete
 ### As of November 7th 2022, this app has been updated further including a new feature! (That was or was not an actual requirement of the original assignment I did not originally do.
 
 ### The Basic Look
-![/assets/images/appshot1PNG.PNG](/assets/images/appshot1PNG.PNG)
+![/assets/images/appshot1.PNG](/assets/images/appshot1.PNG)
 
 In the above screenshot, you can see the most basic feature of the app: 
 - The To Do List
