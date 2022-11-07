@@ -4,7 +4,9 @@ import 'package:to_dont_list/main.dart';
 import 'dart:math';
 
 class AstraPage extends StatefulWidget {
-  const AstraPage({super.key});
+  AstraPage({required this.items}) : super(key: ObjectKey(items));
+
+  final List<Item> items;
 
   @override
   State<AstraPage> createState() => _AstraPage();
@@ -18,6 +20,7 @@ Color iconColor = Colors.black;
 int generatedInt = 0;
 IconData arcana = Icons.wb_sunny;
 var random = Random();
+Item fortuneItem = Item(name: "none");
 TextStyle titleStyle =
     TextStyle(color: mainColor, fontWeight: FontWeight.w900, fontSize: 35);
 
@@ -234,10 +237,9 @@ class _AstraPage extends State<AstraPage> {
                 padding: const EdgeInsets.only(left: 10),
                 child: ElevatedButton(
                     onPressed: () => {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: ((context) => ToDoList())))
+                          fortuneItem = Item(name: fortuneCommand),
+                          widget.items.add(fortuneItem),
+                          Navigator.pop(context),
                         },
                     child: const Text("Add to My List")))
           ],

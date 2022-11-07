@@ -6,10 +6,12 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:to_dont_list/main.dart';
 import 'package:to_dont_list/to_do_items.dart';
+import 'package:to_dont_list/astra.dart';
 
 void main() {
   test('Item abbreviation should be first letter', () {
@@ -71,7 +73,10 @@ void main() {
     expect(find.byType(TextField), findsNothing);
 
     await tester.tap(find.byType(FloatingActionButton));
-    await tester.pump(); // Pump after every action to rebuild the widgets
+    await tester.pump();
+    // Pump after every action to rebuild the widgets
+    await tester.tap(find.byIcon(Icons.person_add));
+    await tester.pump();
     expect(find.text("hi"), findsNothing);
 
     await tester.enterText(find.byType(TextField), 'hi');
@@ -111,5 +116,29 @@ void main() {
     final listItemFinder = find.byType(ToDoListItem);
 
     expect(listItemFinder, findsOneWidget);
+  });
+
+  testWidgets('Testing the Cancel button before adding an Item',
+      (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: ToDoList()));
+
+    expect(find.byType(TextField), findsNothing);
+
+    await tester.tap(find.byType(FloatingActionButton));
+    await tester.pump(); // Pump after every action to rebuild the widgets
+    await tester.tap(find.byIcon(Icons.person_add));
+    expect(find.text("hi"), findsNothing);
+
+    await tester.enterText(find.byType(TextField), 'hi');
+    await tester.pump();
+    expect(find.text("hi"), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key("CancelButton")));
+    await tester.pump();
+    expect(find.text("hi"), findsNothing);
+
+    final listItemFinder = find.byType(ToDoListItem);
+
+    expect(listItemFinder, findsNWidgets(1));
   });
 }
