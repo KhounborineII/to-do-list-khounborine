@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:to_dont_list/to_do_items.dart';
-import 'package:to_dont_list/main.dart';
+
+// NOT USED AS AN IMPORT
+// import 'package:to_dont_list/main.dart';
+
 import 'dart:math';
 
 class AstraPage extends StatefulWidget {
@@ -20,7 +23,7 @@ Color iconColor = Colors.black;
 int generatedInt = 0;
 IconData arcana = Icons.wb_sunny;
 var random = Random();
-Item fortuneItem = Item(name: "none");
+Item fortuneItem = const Item(name: "none");
 TextStyle titleStyle =
     TextStyle(color: mainColor, fontWeight: FontWeight.w900, fontSize: 35);
 
@@ -211,42 +214,44 @@ class _AstraPage extends State<AstraPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-            child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Text(cardTitle, style: titleStyle),
-        Icon(arcana, color: mainColor, size: 300),
-        Padding(
-          padding: const EdgeInsets.only(top: 40, bottom: 20),
-          child: Text(
-            "$cardText\n Fortune: $fortuneCommand.",
-            style: const TextStyle(fontSize: 20),
-            textAlign: TextAlign.center,
-          ),
-        ),
-        Row(
+      body: Center(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: <Widget>[
+            Text(cardTitle, style: titleStyle),
+            Icon(arcana, color: mainColor, size: 300),
             Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: ElevatedButton(
-                    key: const Key("AnotherCardButton"),
-                    onPressed: cardGeneration,
-                    child: const Text("Give me Another"))),
-            Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: ElevatedButton(
-                    key: const Key("ArcanaAddButton"),
-                    onPressed: () => {
-                          fortuneItem = Item(name: fortuneCommand),
-                          widget.items.add(fortuneItem),
-                          Navigator.pop(context),
-                        },
-                    child: const Text("Add to My List")))
+              padding: const EdgeInsets.only(top: 40, bottom: 20),
+              child: Text(
+                "$cardText\n Fortune: $fortuneCommand.",
+                style: const TextStyle(fontSize: 20),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: ElevatedButton(
+                        key: const Key("AnotherCardButton"),
+                        onPressed: cardGeneration,
+                        child: const Text("Give me Another"))),
+                Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: ElevatedButton(
+                        key: const Key("ArcanaAddButton"),
+                        onPressed: () => {
+                              fortuneItem = Item(name: fortuneCommand),
+                              widget.items.add(fortuneItem),
+                              Navigator.pop(context),
+                            },
+                        child: const Text("Add to My List")))
+              ],
+            )
           ],
-        )
-      ],
-    )));
+        ),
+      ),
+    );
   }
 }
