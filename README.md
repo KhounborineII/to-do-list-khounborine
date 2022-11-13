@@ -10,8 +10,8 @@ As simple To Do List Application, the user can add new todos, cross off complete
 
 ### As of November 7th 2022, this app has been updated further including a new feature! (That was or was not an actual requirement of the original assignment I did not originally do) (Why are these Images still so big? I don't know!) (Pull Request it maybe lol?)
 
-### The Basic Look
-![/assets/images/appshot1.PNG](/assets/images/appshot1.PNG)
+### The Basic Look ![/assets/images/appshot1.PNG](/assets/images/appshot1.PNG)
+<img src="/assets/images/appshot1.PNG" width="100" height="100" />
 
 In the above screenshot, you can see the most basic feature of the app: 
 - The To Do List
