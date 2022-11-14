@@ -16,19 +16,18 @@ import 'package:to_dont_list/predict_task_warn.dart';
 
 void main() {
   test('Item abbreviation should be first letter', () {
-    const item = Item(name: "add more todos");
-    expect(item.abbrev(), "a");
+    const item = Squirrel(name: "Squirrel", price: 6);
+    expect(item.abbrev(), "S");
   });
 
   // Yes, you really need the MaterialApp and Scaffold
-  testWidgets('ToDoListItem has a text', (tester) async {
+  testWidgets('SquirrelItem has a text', (tester) async {
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(
-            body: ToDoListItem(
-                item: const Item(name: "test"),
-                completed: true,
-                onListChanged: (Item item, bool completed) {},
-                onDeleteItem: (Item item) {}))));
+            body: SquirrelItem(
+                item: const Squirrel(name: "test", price: 4),
+                sold: true,
+                onListChanged: (Squirrel item, bool completed) {}))));
     final textFinder = find.text('test');
 
     // Use the `findsOneWidget` matcher provided by flutter_test to verify
@@ -36,15 +35,14 @@ void main() {
     expect(textFinder, findsOneWidget);
   });
 
-  testWidgets('ToDoListItem has a Circle Avatar with abbreviation',
+  testWidgets('SquirrelItem has a Circle Avatar with abbreviation',
       (tester) async {
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(
-            body: ToDoListItem(
-                item: const Item(name: "test"),
-                completed: true,
-                onListChanged: (Item item, bool completed) {},
-                onDeleteItem: (Item item) {}))));
+            body: SquirrelItem(
+                item: const Squirrel(name: "test", price: 0),
+                sold: false,
+                onListChanged: (Squirrel item, bool sold) {}))));
     final abbvFinder = find.text('t');
     final avatarFinder = find.byType(CircleAvatar);
 
@@ -54,72 +52,50 @@ void main() {
     // Use the `findsOneWidget` matcher provided by flutter_test to verify
     // that the Text widgets appear exactly once in the widget tree.
     expect(abbvFinder, findsOneWidget);
-    expect(circ.backgroundColor, Colors.black54);
+    expect(circ.backgroundColor, Colors.blue);
     expect(ctext.data, "t");
   });
 
-  testWidgets('Default ToDoList has one item', (tester) async {
-    await tester.pumpWidget(const MaterialApp(home: ToDoList()));
+  testWidgets('Default SquirrelCatalogue has three items', (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: SquirrelShopping()));
 
-    final listItemFinder = find.byType(ToDoListItem);
+    final listItemFinder = find.byType(SquirrelItem);
 
-    expect(listItemFinder, findsOneWidget);
+    expect(listItemFinder, findsNWidgets(3));
   });
 
-  testWidgets('Clicking and Typing adds item to ToDoList', (tester) async {
-    await tester.pumpWidget(const MaterialApp(home: ToDoList()));
+  // One to test the tap and press actions on the items?
+  testWidgets("Squirrel Item has Name and Price", (tester) async {
+    await tester.pumpWidget(MaterialApp(
+        home: Scaffold(
+            body: SquirrelItem(
+                item: const Squirrel(name: "test", price: 10),
+                sold: false,
+                onListChanged: (Squirrel item, bool sold) {}))));
+    final nameFinder = find.text("test");
+    final priceFinder = find.text("10");
 
+    expect(nameFinder, findsOneWidget);
+    expect(priceFinder, findsOneWidget);
+  });
+
+  testWidgets("Add Squirrel Item", (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: SquirrelShopping()));
     expect(find.byType(TextField), findsNothing);
 
     await tester.tap(find.byType(FloatingActionButton));
-    await tester.pump(); // Pump after every action to rebuild the widgets
+    await tester.pump();
     expect(find.text("hi"), findsNothing);
 
-    await tester.enterText(find.byType(TextField), 'hi');
+    await tester.enterText(
+        find.widgetWithText(TextField, "type Name here"), "Test Squirrel");
     await tester.pump();
-    expect(find.text("hi"), findsOneWidget);
+    await tester.enterText(
+        find.widgetWithText(TextField, "type Price here"), "9");
+    await tester.pump();
 
     await tester.tap(find.byKey(const Key("OKButton")));
     await tester.pump();
-    //changed this due to changes Jonathon made with texts being added to items
-    expect(find.textContaining("hi"), findsOneWidget);
-
-    final listItemFinder = find.byType(ToDoListItem);
-
-    expect(listItemFinder, findsNWidgets(2));
-  });
-  // One to test the tap and press actions on the items?
-  testWidgets('Marking an item complete adds one to the completed counter',
-      (tester) async {
-    await tester.pumpWidget(const MaterialApp(home: ToDoList()));
-
-    final listItemFinder = find.byType(ToDoListItem);
-
-    expect(listItemFinder, findsOneWidget);
-
-    final titleFinder0 = find.text("Items completed: 0");
-
-    expect(titleFinder0, findsOneWidget);
-
-    await tester.tap(find.text("add more todos"));
-    await tester.pump();
-
-    final titleFinder1 = find.text("Items completed: 1");
-
-    expect(titleFinder1, findsOneWidget);
-
-    await tester.tap(find.text("add more todos"));
-    await tester.pump();
-
-    expect(titleFinder1, findsOneWidget);
-  });
-
-  testWidgets(
-      'Giving an int and a random number to predictTaskWarn returns a string',
-      (tester) async {
-    Random rand = Random();
-    String result = predict_task_warn().ptw(2, rand);
-
-    expect(result.runtimeType, String);
+    expect(find.byType(SquirrelItem), findsNWidgets(4));
   });
 }

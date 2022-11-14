@@ -6,26 +6,21 @@ import 'dart:math';
 import 'package:boxicons/boxicons.dart';
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 
-List<Item> items = [const Item(name: "add more todos")];
-
-class ToDoList extends StatefulWidget {
-  const ToDoList({super.key});
+class SquirrelShopping extends StatefulWidget {
+  const SquirrelShopping({super.key});
 
   @override
-  State createState() => _ToDoListState();
+  State createState() => _SquirrelShoppingState();
 }
 
-typedef ListAddCallback = Function();
-
-class _ToDoListState extends State<ToDoList> {
+class _SquirrelShoppingState extends State<SquirrelShopping> {
   // Dialog with text from https://www.appsdeveloperblog.com/alert-dialog-with-a-text-field-in-flutter/
-  final TextEditingController _inputController = TextEditingController();
+  final TextEditingController _nameInputController = TextEditingController();
+  final TextEditingController _priceInputController = TextEditingController();
   final ButtonStyle yesStyle = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 20), primary: Colors.green);
+      textStyle: const TextStyle(fontSize: 20), backgroundColor: Colors.green);
   final ButtonStyle noStyle = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 20), primary: Colors.red);
-  int _selectedIndex = 0;
-  predict_task_warn ptw = predict_task_warn();
+      textStyle: const TextStyle(fontSize: 20), backgroundColor: Colors.red);
 
   Future<void> _displayTextInputDialog(BuildContext context) async {
     print("Loading Dialog");
@@ -43,45 +38,62 @@ class _ToDoListState extends State<ToDoList> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text('Item To Add'),
-            content: TextField(
-              onChanged: (value) {
-                setState(() {
-                  valueText = value;
-                });
-              },
-              controller: _inputController,
-              decoration:
-                  const InputDecoration(hintText: "type something here"),
-            ),
-            actions: <Widget>[
-              ElevatedButton(
-                key: const Key("OKButton"),
-                style: yesStyle,
-                child: const Text('OK'),
-                onPressed: () {
+            title: const Text('Squirrel To Add'),
+            content: Column(children: <Widget>[
+              TextField(
+                onChanged: (value) {
                   setState(() {
-                    _handleNewItem(valueText + _magic8[_random.nextInt(6)]);
-                    Navigator.pop(context);
-                    valueText = "";
+                    name = value;
                   });
                 },
+                controller: _nameInputController,
+                decoration:
+                    const InputDecoration(label: Text("type Name here")),
               ),
-
+              TextField(
+                keyboardType: TextInputType
+                    .number, //https://stackoverflow.com/questions/49577781/how-to-create-number-input-field-in-flutter
+                onChanged: (value) {
+                  setState(() {
+                    price = value;
+                  });
+                },
+                controller: _priceInputController,
+                decoration:
+                    const InputDecoration(label: Text("type Price here")),
+              )
+            ]),
+            actions: <Widget>[
               // https://stackoverflow.com/questions/52468987/how-to-turn-disabled-button-into-enabled-button-depending-on-conditions
               ValueListenableBuilder<TextEditingValue>(
-                valueListenable: _inputController,
+                valueListenable: _nameInputController,
                 builder: (context, value, child) {
                   return ElevatedButton(
-                    key: const Key("CancelButton"),
-                    style: noStyle,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pop(context);
-                      });
-                    },
-                    child: const Text('Cancel'),
+                    key: const Key("OKButton"),
+                    style: yesStyle,
+                    onPressed: value.text.isNotEmpty
+                        ? () {
+                            setState(() {
+                              _handleNewItem(name, int.parse(price));
+                              Navigator.pop(context);
+                            });
+                          }
+                        : null,
+                    child: const Text('OK'),
                   );
+                },
+              ),
+              ElevatedButton(
+                key: const Key("CancelButton"),
+                style: noStyle,
+                child: const Text('Cancel'),
+                onPressed: () {
+                  setState(() {
+                    Navigator.pop(context);
+                    _priceInputController
+                        .clear(); //clear text fields after cancel
+                    _nameInputController.clear();
+                  });
                 },
               ),
             ],
@@ -89,13 +101,18 @@ class _ToDoListState extends State<ToDoList> {
         });
   }
 
-  String valueText = "";
+  String name = "";
+  String price = "";
 
-  final _itemSet = <Item>{};
+  final List<Squirrel> items = [
+    const Squirrel(name: "Bob", price: 3), //init with multiple
+    const Squirrel(name: "Claude", price: 7),
+    const Squirrel(name: "Nuts", price: 9)
+  ];
 
-  int numCompleted = 0;
+  final _itemSet = <Squirrel>{};
 
-  void _handleListChanged(Item item, bool completed) {
+  void _handleSquirrelSelling(Squirrel item, bool sold) {
     setState(() {
       // When a user changes what's in the list, you need
       // to change _itemSet inside a setState call to
@@ -103,33 +120,24 @@ class _ToDoListState extends State<ToDoList> {
       // The framework then calls build, below,
       // which updates the visual appearance of the app.
 
-      items.remove(item);
-      if (!completed) {
-        print("Completing");
+      if (!sold) {
+        print("Selling");
         _itemSet.add(item);
-        items.add(item);
-        numCompleted++;
-      } else {
-        print("Making Undone");
-        _itemSet.remove(item);
-        items.insert(0, item);
+        //items.add(item);
+        print(items);
       }
     });
   }
 
-  void _handleDeleteItem(Item item) {
-    setState(() {
-      print("Deleting item");
-      items.remove(item);
-    });
-  }
-
-  void _handleNewItem(String itemText) {
+  void _handleNewItem(String itemText, int itemPrice) {
+    //, int itemPrice
     setState(() {
       print("Adding new item");
-      Item item = Item(name: itemText);
+      Squirrel item = Squirrel(name: itemText, price: itemPrice);
+      //Item isn't const with String value, Item name is the value of itemText
       items.insert(0, item);
-      _inputController.clear();
+      _priceInputController.clear();
+      _nameInputController.clear();
     });
   }
 
@@ -147,54 +155,31 @@ class _ToDoListState extends State<ToDoList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Items completed: $numCompleted'),
-        ),
-        body: ListView(
-          key: ObjectKey(items.first),
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          children: items.map((item) {
-            return ToDoListItem(
+      appBar: AppBar(
+        title: const Text('Squirrel Store Catalogue'),
+      ),
+      body: ListView(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        children: items.map((item) {
+          return SquirrelItem(
               item: item,
-              completed: _itemSet.contains(item),
-              onListChanged: _handleListChanged,
-              onDeleteItem: _handleDeleteItem,
-            );
-          }).toList(),
-        ),
-        floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.add),
-            onPressed: () {
-              _displayTextInputDialog(context);
-            }),
-        //This where all of the predict things happen
-        bottomNavigationBar: BottomNavigationBar(
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Boxicons.bxs_brain),
-              label: 'Predict',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(BootstrapIcons.list_task),
-              label: 'Task',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.warning_amber),
-              label: 'Warn',
-            ),
-          ],
-          //When an item gets selected we go into a function where we save the index and use that to create the tasks
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.blue[800],
-          onTap: _onItemTapped,
-        ));
+              sold: _itemSet.contains(item),
+              onListChanged: _handleSquirrelSelling);
+        }).toList(),
+      ),
+      floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.add),
+          onPressed: () {
+            _displayTextInputDialog(context);
+          }),
+    );
   }
 }
 
 void main() {
   runApp(const MaterialApp(
-    title: 'To Do List',
-    home: ToDoList(),
+    title: 'Squirrel Store Catalogue',
+    home: SquirrelShopping(),
   ));
 }
 

@@ -1,22 +1,19 @@
-# To Do or Not To Do
+# Squirrel Store Catalogue
 
-A Flutter Demo project.
+### Mobile Software Dev to-dont list
 
-## Description
+The audience for this app are shop owners. Specifically "Squirrel Shop" owners. 
 
-Do you ever get indecisive on what to do in a to do list?
-Do you ever want an app that just tells you what to do?
-An app that gives you ideas?
-Then this app is the app for you.
+This app stores and keeps track of Squirrels which are sold and not sold. The app also records the price of each Squirrel. The app also allows the shop owner to add new Squirrel inventory along with their price and name. 
 
-![Screenshot 1](/img/SS1.png)
+This app is a useful and easy way to store data for a shop that can be used or referenced later. 
+This app allows the user to have continued access to sold items, they stay in the app. 
 
-To Do or Not To Do is an app that gives the user the option to get a random prediction, task, or warning for times when it is too hard to think of things to add to your To-Do list.
+- Initialization of the app
+<img src = "/images/initialize.png" width = "300">
 
-![Screenshot 2](/img/SS2.png)
+- Add squirrel
+<img src = "/images/add squirrel.png" width = "300">
 
-Another feature is that if you have a task in mind that you want to do, it will let you know if it thinks you should do that task.
-
-![Screenshot 3](/img/SS3.png)
-
-Consider To Do or Not To Do to be your next To-Do app.
+- See added squirrel and sell squirrel
+<img src = "/images/see added squirrel and sell squirrel.png" width = "300">
