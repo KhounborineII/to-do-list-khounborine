@@ -1,28 +1,25 @@
-// Started with https://docs.flutter.dev/development/ui/widgets-intro
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:to_dont_list/to_do_items.dart';
 import 'package:to_dont_list/astra.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
-class SquirrelShopping extends StatefulWidget {
-  const SquirrelShopping({super.key});
+class ToDoList extends StatefulWidget {
+  const ToDoList({super.key});
 
   @override
-  State createState() => _SquirrelShoppingState();
+  State createState() => _ToDoListState();
 }
 
-class _SquirrelShoppingState extends State<SquirrelShopping> {
+class _ToDoListState extends State<ToDoList> {
   // Dialog with text from https://www.appsdeveloperblog.com/alert-dialog-with-a-text-field-in-flutter/
-  final TextEditingController _nameInputController = TextEditingController();
-  final TextEditingController _priceInputController = TextEditingController();
+  final TextEditingController _inputController = TextEditingController();
   final ButtonStyle yesStyle = ElevatedButton.styleFrom(
       textStyle: const TextStyle(fontSize: 20), backgroundColor: Colors.green);
   final ButtonStyle noStyle = ElevatedButton.styleFrom(
       textStyle: const TextStyle(fontSize: 20), backgroundColor: Colors.red);
 
   Future<void> _displayTextInputDialog(BuildContext context) async {
+    print("Loading Dialog");
     return showDialog(
         context: context,
         builder: (context) {
@@ -45,31 +42,17 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
                 child: const Text('OK'),
                 onPressed: () {
                   setState(() {
-                    _handleNewItem(valueText);
-                    Navigator.pop(context);
+                    if (valueText != "") {
+                      _handleNewItem(valueText);
+                      Navigator.pop(context);
+                    }
                   });
                 },
-                controller: _nameInputController,
-                decoration:
-                    const InputDecoration(label: Text("type Name here")),
               ),
-              TextField(
-                keyboardType: TextInputType
-                    .number, //https://stackoverflow.com/questions/49577781/how-to-create-number-input-field-in-flutter
-                onChanged: (value) {
-                  setState(() {
-                    price = value;
-                  });
-                },
-                controller: _priceInputController,
-                decoration:
-                    const InputDecoration(label: Text("type Price here")),
-              )
-            ]),
-            actions: <Widget>[
+
               // https://stackoverflow.com/questions/52468987/how-to-turn-disabled-button-into-enabled-button-depending-on-conditions
               ValueListenableBuilder<TextEditingValue>(
-                valueListenable: _nameInputController,
+                valueListenable: _inputController,
                 builder: (context, value, child) {
                   return ElevatedButton(
                     key: const Key("CancelButton"),
@@ -81,19 +64,6 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
                     },
                     child: const Text('Cancel'),
                   );
-                },
-              ),
-              ElevatedButton(
-                key: const Key("CancelButton"),
-                style: noStyle,
-                child: const Text('Cancel'),
-                onPressed: () {
-                  setState(() {
-                    Navigator.pop(context);
-                    _priceInputController
-                        .clear(); //clear text fields after cancel
-                    _nameInputController.clear();
-                  });
                 },
               ),
             ],
@@ -157,9 +127,9 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
   final List<Item> items = [const Item(name: "add more todos")];
   final List<Item> replacement = [];
 
-  final _itemSet = <Squirrel>{};
+  final _itemSet = <Item>{};
 
-  void _handleSquirrelSelling(Squirrel item, bool sold) {
+  void _handleListChanged(Item item, bool completed) {
     setState(() {
       // When a user changes what's in the list, you need
       // to change _itemSet inside a setState call to
@@ -167,23 +137,32 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
       // The framework then calls build, below,
       // which updates the visual appearance of the app.
 
-      if (!sold) {
-        print("Selling");
+      items.remove(item);
+      if (!completed) {
+        print("Completing");
         _itemSet.add(item);
-        //items.add(item);
-        print(items);
+        items.add(item);
+      } else {
+        print("Making Undone");
+        _itemSet.remove(item);
+        items.insert(0, item);
       }
     });
   }
 
-  void _handleNewItem(String itemText, double itemPrice) {
-    //, int itemPrice
+  void _handleDeleteItem(Item item) {
+    setState(() {
+      print("Deleting item");
+      items.remove(item);
+    });
+  }
+
+  void _handleNewItem(String itemText) {
     setState(() {
       print("Adding new item");
       Item item = Item(name: itemText);
       items.insert(0, item);
-      _priceInputController.clear();
-      _nameInputController.clear();
+      _inputController.clear();
     });
   }
 
@@ -208,13 +187,13 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Squirrel Store Catalogue'),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        children: items.map((item) {
-          return SquirrelItem(
+        appBar: AppBar(
+          title: const Text('To Do List'),
+        ),
+        body: ListView(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          children: items.map((item) {
+            return ToDoListItem(
               item: item,
               completed: _itemSet.contains(item),
               onListChanged: _handleListChanged,
@@ -257,16 +236,7 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
 
 void main() {
   runApp(const MaterialApp(
-    title: 'Squirrel Store Catalogue',
-    home: SquirrelShopping(),
+    title: 'To Do List',
+    home: ToDoList(),
   ));
 }
-
-// "You could have the app be a fortune recorder, 
-//  so the magic 8 ball is the way you get to add things to the list?"
-
-// Have a class that holds a huge list of "predictions", "tasks", and "warnings" 
-// - When you press the button on the bottom, 
-//    it will add a new item to the list from that list. 
-// If you manually type something into the task list, 
-//  append a magic eight ball saying to the end of the to do item.

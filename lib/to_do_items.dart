@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
-class Squirrel {
-  const Squirrel({required this.name, required this.price});
+class Item {
+  const Item({required this.name});
 
   final String name;
-  final double price; //asking price
-  //final Image image; //squirrel image
 
   String abbrev() {
     return name.substring(0, 1);
@@ -16,17 +14,17 @@ typedef ToDoListChangedCallback = Function(Item item, bool completed);
 typedef ToDoListRemovedCallback = Function(Item item);
 typedef ToDoListEditedCallback = Function(Item item);
 
-class SquirrelItem extends StatelessWidget {
-  SquirrelItem(
+class ToDoListItem extends StatelessWidget {
+  ToDoListItem(
       {required this.item,
-      required this.sold,
+      required this.completed,
       required this.onListChanged,
       required this.onEditItem,
       required this.onDeleteItem})
       : super(key: ObjectKey(item));
 
-  final Squirrel item;
-  final bool sold;
+  final Item item;
+  final bool completed;
   final ToDoListChangedCallback onListChanged;
   final ToDoListRemovedCallback onDeleteItem;
   final ToDoListEditedCallback onEditItem;
@@ -36,7 +34,6 @@ class SquirrelItem extends StatelessWidget {
     // parts of the tree can have different themes.
     // The BuildContext indicates where the build is
     // taking place and therefore which theme to use.
-    if (!sold) return Colors.blue;
 
     return completed //
         ? Colors.black54
@@ -44,20 +41,12 @@ class SquirrelItem extends StatelessWidget {
   }
 
   TextStyle? _getTextStyle(BuildContext context) {
-    if (!sold) return null;
+    if (!completed) return null;
 
     return const TextStyle(
       color: Colors.black54,
       decoration: TextDecoration.lineThrough,
     );
-  }
-
-  Text _getSubtitle(BuildContext context) {
-    if (!sold) {
-      return Text(item.price.toString());
-    } else {
-      return Text("SOLD");
-    }
   }
 
   @override
