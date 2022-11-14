@@ -1,4 +1,3 @@
-// Started with https://docs.flutter.dev/development/ui/widgets-intro
 import 'package:flutter/material.dart';
 import 'package:to_dont_list/to_do_items.dart';
 import 'package:to_dont_list/astra.dart';
@@ -43,8 +42,10 @@ class _ToDoListState extends State<ToDoList> {
                 child: const Text('OK'),
                 onPressed: () {
                   setState(() {
-                    _handleNewItem(valueText);
-                    Navigator.pop(context);
+                    if (valueText != "") {
+                      _handleNewItem(valueText);
+                      Navigator.pop(context);
+                    }
                   });
                 },
               ),
@@ -223,10 +224,10 @@ class _ToDoListState extends State<ToDoList> {
                 label: "Add Arcana Todo",
                 backgroundColor: Colors.blueAccent,
                 onTap: () => {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(
                               builder: ((context) => AstraPage(items: items))))
+                          .then((value) => setState(() => {}))
                     }),
           ],
         ));

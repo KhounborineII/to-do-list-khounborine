@@ -242,9 +242,11 @@ class _AstraPage extends State<AstraPage> {
                     child: ElevatedButton(
                         key: const Key("ArcanaAddButton"),
                         onPressed: () => {
-                              fortuneItem = Item(name: fortuneCommand),
-                              widget.items.add(fortuneItem),
-                              Navigator.pop(context),
+                              setState(() {
+                                fortuneItem = Item(name: fortuneCommand);
+                                widget.items.add(fortuneItem);
+                                Navigator.pop(context);
+                              })
                             },
                         child: const Text("Add to My List")))
               ],
