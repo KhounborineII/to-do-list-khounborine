@@ -4,7 +4,7 @@ class Squirrel {
   const Squirrel({required this.name, required this.price});
 
   final String name;
-  final int price; //asking price
+  final double price; //asking price
   //final Image image; //squirrel image
 
   String abbrev() {
@@ -14,15 +14,20 @@ class Squirrel {
 }
 
 typedef ToDoListChangedCallback = Function(Squirrel item, bool completed);
+typedef ToDoListPriceCallback = Function(Squirrel item);
 
 class SquirrelItem extends StatelessWidget {
   SquirrelItem(
-      {required this.item, required this.sold, required this.onListChanged})
+      {required this.item,
+      required this.sold,
+      required this.onListChanged,
+      required this.onPriceIncrease})
       : super(key: ObjectKey(item));
 
   final Squirrel item;
   final bool sold;
   final ToDoListChangedCallback onListChanged;
+  final ToDoListPriceCallback onPriceIncrease;
 
   Color _getColor(BuildContext context) {
     // The theme depends on the BuildContext because different
@@ -58,6 +63,9 @@ class SquirrelItem extends StatelessWidget {
     return ListTile(
         onTap: () {
           onListChanged(item, sold);
+        },
+        onLongPress: () {
+          onPriceIncrease(item);
         },
         leading: CircleAvatar(
           backgroundColor: _getColor(context),
