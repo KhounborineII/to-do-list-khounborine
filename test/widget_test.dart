@@ -175,14 +175,6 @@ void main() {
 
     final listItemFinder = find.byType(ToDoListItem);
 
-    expect(listItemFinder, findsNWidgets(1));
-
-    await tester.tap(find.byType(FloatingActionButton));
-    await tester.pumpAndSettle(const Duration(seconds: 5));
-    await tester.tap(find.byIcon(Icons.person_add));
-    await tester.pumpAndSettle(const Duration(seconds: 5));
-    await tester.tap(find.byKey(const Key("CancelButton")));
-    await tester.pumpAndSettle(const Duration(seconds: 5));
     expect(listItemFinder, findsNWidgets(2));
   });
 }
