@@ -8,26 +8,28 @@ class Squirrel {
   //final Image image; //squirrel image
 
   String abbrev() {
-    return name.substring(
-        0, 1); //changed from (0,2) to (0,1) to get first letter only
+    return name.substring(0, 1);
   }
 }
 
-typedef ToDoListChangedCallback = Function(Squirrel item, bool completed);
-typedef ToDoListPriceCallback = Function(Squirrel item);
+typedef ToDoListChangedCallback = Function(Item item, bool completed);
+typedef ToDoListRemovedCallback = Function(Item item);
+typedef ToDoListEditedCallback = Function(Item item);
 
 class SquirrelItem extends StatelessWidget {
   SquirrelItem(
       {required this.item,
       required this.sold,
       required this.onListChanged,
-      required this.onPriceIncrease})
+      required this.onEditItem,
+      required this.onDeleteItem})
       : super(key: ObjectKey(item));
 
   final Squirrel item;
   final bool sold;
   final ToDoListChangedCallback onListChanged;
-  final ToDoListPriceCallback onPriceIncrease;
+  final ToDoListRemovedCallback onDeleteItem;
+  final ToDoListEditedCallback onEditItem;
 
   Color _getColor(BuildContext context) {
     // The theme depends on the BuildContext because different
@@ -36,8 +38,8 @@ class SquirrelItem extends StatelessWidget {
     // taking place and therefore which theme to use.
     if (!sold) return Colors.blue;
 
-    return sold //
-        ? Colors.black54 //color changed to black54 for test
+    return completed //
+        ? Colors.black54
         : Theme.of(context).primaryColor;
   }
 
@@ -61,21 +63,26 @@ class SquirrelItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-        onTap: () {
-          onListChanged(item, sold);
-        },
-        onLongPress: () {
-          onPriceIncrease(item);
-        },
-        leading: CircleAvatar(
-          backgroundColor: _getColor(context),
-          child: Text(item.abbrev()), //text of circle is abbreviation
-        ),
-        title: Text(
-          item.name, //item text is the Item's name
-          style: _getTextStyle(context),
-        ),
-        subtitle: _getSubtitle(context));
-    //Text(item.price.toString()));
+      onTap: () {
+        onListChanged(item, completed);
+      },
+      onLongPress: completed
+          ? () {
+              onDeleteItem(item);
+            }
+          : !completed
+              ? () {
+                  onEditItem(item);
+                }
+              : null,
+      leading: CircleAvatar(
+        backgroundColor: _getColor(context),
+        child: Text(item.abbrev()),
+      ),
+      title: Text(
+        item.name,
+        style: _getTextStyle(context),
+      ),
+    );
   }
 }

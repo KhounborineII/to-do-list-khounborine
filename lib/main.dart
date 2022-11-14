@@ -3,10 +3,8 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:to_dont_list/to_do_items.dart';
-import 'dart:math';
-import 'package:boxicons/boxicons.dart';
-import 'package:bootstrap_icons/bootstrap_icons.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:to_dont_list/astra.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class SquirrelShopping extends StatefulWidget {
   const SquirrelShopping({super.key});
@@ -29,12 +27,26 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text('Squirrel To Add'),
-            content: Column(children: <Widget>[
-              TextField(
-                onChanged: (value) {
+            title: const Text('Item To Add'),
+            content: TextField(
+              onChanged: (value) {
+                setState(() {
+                  valueText = value;
+                });
+              },
+              controller: _inputController,
+              decoration:
+                  const InputDecoration(hintText: "type something here"),
+            ),
+            actions: <Widget>[
+              ElevatedButton(
+                key: const Key("OKButton"),
+                style: yesStyle,
+                child: const Text('OK'),
+                onPressed: () {
                   setState(() {
-                    name = value;
+                    _handleNewItem(valueText);
+                    Navigator.pop(context);
                   });
                 },
                 controller: _nameInputController,
@@ -60,17 +72,14 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
                 valueListenable: _nameInputController,
                 builder: (context, value, child) {
                   return ElevatedButton(
-                    key: const Key("OKButton"),
-                    style: yesStyle,
-                    onPressed: value.text.isNotEmpty
-                        ? () {
-                            setState(() {
-                              _handleNewItem(name, double.parse(price));
-                              Navigator.pop(context);
-                            });
-                          }
-                        : null,
-                    child: const Text('OK'),
+                    key: const Key("CancelButton"),
+                    style: noStyle,
+                    onPressed: () {
+                      setState(() {
+                        Navigator.pop(context);
+                      });
+                    },
+                    child: const Text('Cancel'),
                   );
                 },
               ),
@@ -92,14 +101,61 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
         });
   }
 
-  String name = "";
-  String price = "";
+  Future<void> _displayTextEditDialog(BuildContext context, Item item) async {
+    print("Loading Dialog");
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Item To Edit'),
+            content: TextField(
+              onChanged: (value) {
+                setState(() {
+                  valueText = value;
+                });
+              },
+              controller: _inputController,
+              decoration:
+                  const InputDecoration(hintText: "type something here"),
+            ),
+            actions: <Widget>[
+              ElevatedButton(
+                key: const Key("OKButton"),
+                style: yesStyle,
+                child: const Text('OK'),
+                onPressed: () {
+                  setState(() {
+                    _handleEditItemHelper(item, valueText);
+                    Navigator.pop(context);
+                  });
+                },
+              ),
 
-  final List<Squirrel> items = [
-    const Squirrel(name: "Bob", price: 3), //init with multiple
-    const Squirrel(name: "Claude", price: 7),
-    const Squirrel(name: "Nuts", price: 9)
-  ];
+              // https://stackoverflow.com/questions/52468987/how-to-turn-disabled-button-into-enabled-button-depending-on-conditions
+              ValueListenableBuilder<TextEditingValue>(
+                valueListenable: _inputController,
+                builder: (context, value, child) {
+                  return ElevatedButton(
+                    key: const Key("CancelButton"),
+                    style: noStyle,
+                    onPressed: () {
+                      setState(() {
+                        Navigator.pop(context);
+                      });
+                    },
+                    child: const Text('Cancel'),
+                  );
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  String valueText = "";
+
+  final List<Item> items = [const Item(name: "add more todos")];
+  final List<Item> replacement = [];
 
   final _itemSet = <Squirrel>{};
 
@@ -124,96 +180,29 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
     //, int itemPrice
     setState(() {
       print("Adding new item");
-      Squirrel item = Squirrel(name: itemText, price: itemPrice);
-      //Item isn't const with String value, Item name is the value of itemText
+      Item item = Item(name: itemText);
       items.insert(0, item);
       _priceInputController.clear();
       _nameInputController.clear();
     });
   }
 
-  Future<void> _handleAuction(Squirrel item) async {
-    final TextEditingController _pricecontroller = TextEditingController();
-    var original = item.price;
-    var proposed = 0.0;
-    var error = "";
-    if (_itemSet.contains(item)) {
-    } else {
-      return showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Text('Squirrel Auction for ${item.name}'),
-              content: Column(
-                children: <Widget>[
-                  TextField(
-                    onChanged: (value) {
-                      setState(() {
-                        if (double.parse(value) > original) {
-                          proposed = double.parse(value);
-                        } else if (double.parse(value) < original) {
-                          error =
-                              "You must insert a price higher than the original";
-                        } else {
-                          error = "Please insert a correct value";
-                        }
-                      });
-                    },
-                    controller: _pricecontroller,
-                    decoration: const InputDecoration(
-                        label: Text("Type proposed bidding price")),
-                  ),
-                ],
-              ),
-              actions: <Widget>[
-                // https://stackoverflow.com/questions/52468987/how-to-turn-disabled-button-into-enabled-button-depending-on-conditions
-                ValueListenableBuilder<TextEditingValue>(
-                  valueListenable: _pricecontroller,
-                  builder: (context, value, child) {
-                    return ElevatedButton(
-                      key: const Key("OKButton"),
-                      style: yesStyle,
-                      onPressed: value.text.isNotEmpty
-                          ? () {
-                              setState(() {
-                                if (proposed > original) {
-                                  if (items.contains(item)) {
-                                    items.remove(item);
-                                  }
-                                  _handleNewItem(item.name, proposed);
-                                  Navigator.pop(context);
-                                } else {
-                                  Fluttertoast.showToast(
-                                      msg: error,
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.CENTER,
-                                      timeInSecForIosWeb: 1,
-                                      backgroundColor: Colors.red,
-                                      textColor: Colors.white,
-                                      fontSize: 16.0);
-                                }
-                              });
-                            }
-                          : null,
-                      child: const Text('OK'),
-                    );
-                  },
-                ),
-                ElevatedButton(
-                  key: const Key("CancelButton"),
-                  style: noStyle,
-                  child: const Text('Cancel'),
-                  onPressed: () {
-                    setState(() {
-                      Navigator.pop(context);
-                      _pricecontroller.clear(); //clear text fields after cancel
-                    });
-                  },
-                ),
-              ],
-            );
-          });
-    }
+  void _handleEditItem(Item item) {
+    setState(() {
+      print("Editing an available item");
+    });
+    _inputController.text = item.name;
+    _displayTextEditDialog(context, item);
+  }
+
+  void _handleEditItemHelper(Item item, String valueText) {
+    setState(() {
+      int replacer = items.indexOf(item);
+      replacement.add(Item(name: valueText));
+      items.replaceRange(replacer, replacer + 1, replacement);
+      replacement.clear();
+      _inputController.clear();
+    });
   }
 
   @override
@@ -227,17 +216,42 @@ class _SquirrelShoppingState extends State<SquirrelShopping> {
         children: items.map((item) {
           return SquirrelItem(
               item: item,
-              sold: _itemSet.contains(item),
-              onListChanged: _handleSquirrelSelling,
-              onPriceIncrease: _handleAuction);
-        }).toList(),
-      ),
-      floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.add),
-          onPressed: () {
-            _displayTextInputDialog(context);
-          }),
-    );
+              completed: _itemSet.contains(item),
+              onListChanged: _handleListChanged,
+              onEditItem: _handleEditItem,
+              onDeleteItem: _handleDeleteItem,
+            );
+          }).toList(),
+        ),
+        floatingActionButton: SpeedDial(
+          icon: Icons.add,
+          backgroundColor: Colors.blue,
+          children: [
+            SpeedDialChild(
+                child: const Icon(
+                  Icons.person_add,
+                  color: Colors.white,
+                ),
+                label: "Add Personal Todo",
+                backgroundColor: Colors.blueAccent,
+                onTap: () {
+                  _displayTextInputDialog(context);
+                }),
+            SpeedDialChild(
+                child: const Icon(
+                  Icons.auto_awesome,
+                  color: Colors.yellow,
+                ),
+                label: "Add Arcana Todo",
+                backgroundColor: Colors.blueAccent,
+                onTap: () => {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) => AstraPage(items: items))))
+                    }),
+          ],
+        ));
   }
 }
 
