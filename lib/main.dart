@@ -224,10 +224,10 @@ class _ToDoListState extends State<ToDoList> {
                 label: "Add Arcana Todo",
                 backgroundColor: Colors.blueAccent,
                 onTap: () => {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(
                               builder: ((context) => AstraPage(items: items))))
+                          .then((value) => setState(() => {}))
                     }),
           ],
         ));
