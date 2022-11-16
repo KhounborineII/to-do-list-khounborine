@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
 
 class Item {
-  const Item({required this.name});
+  const Item({required this.name, this.icon, this.color});
 
   final String name;
+  final IconData? icon;
+  final Color? color;
 
   String abbrev() {
-    return name.substring(0, 2);
+    return name.substring(0, 1);
   }
 }
 
 typedef ToDoListChangedCallback = Function(Item item, bool completed);
 typedef ToDoListRemovedCallback = Function(Item item);
+typedef ToDoListEditedCallback = Function(Item item);
 
 class ToDoListItem extends StatelessWidget {
   ToDoListItem(
       {required this.item,
       required this.completed,
       required this.onListChanged,
+      required this.onEditItem,
       required this.onDeleteItem})
       : super(key: ObjectKey(item));
 
@@ -25,6 +29,7 @@ class ToDoListItem extends StatelessWidget {
   final bool completed;
   final ToDoListChangedCallback onListChanged;
   final ToDoListRemovedCallback onDeleteItem;
+  final ToDoListEditedCallback onEditItem;
 
   Color _getColor(BuildContext context) {
     // The theme depends on the BuildContext because different
@@ -32,9 +37,13 @@ class ToDoListItem extends StatelessWidget {
     // The BuildContext indicates where the build is
     // taking place and therefore which theme to use.
 
-    return completed //
-        ? Colors.black
-        : Theme.of(context).primaryColor;
+    if (completed) {
+      return Colors.black54;
+    } else if (item.color == null){
+      return Theme.of(context).primaryColor;
+    } else {
+      return item.color!;
+    }
   }
 
   TextStyle? _getTextStyle(BuildContext context) {
@@ -56,13 +65,21 @@ class ToDoListItem extends StatelessWidget {
           ? () {
               onDeleteItem(item);
             }
-          : null,
+          : !completed
+              ? () {
+                  onEditItem(item);
+                }
+              : null,
       leading: CircleAvatar(
         backgroundColor: _getColor(context),
-        child: Text(item.name),
+        child: (item.icon == null)
+          ?
+          Text(item.abbrev())
+          :
+          Icon(item.icon, color: Colors.white),
       ),
       title: Text(
-        item.abbrev(),
+        item.name,
         style: _getTextStyle(context),
       ),
     );

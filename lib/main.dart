@@ -1,6 +1,7 @@
-// Started with https://docs.flutter.dev/development/ui/widgets-intro
 import 'package:flutter/material.dart';
 import 'package:to_dont_list/to_do_items.dart';
+import 'package:to_dont_list/astra.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class ToDoList extends StatefulWidget {
   const ToDoList({super.key});
@@ -13,9 +14,9 @@ class _ToDoListState extends State<ToDoList> {
   // Dialog with text from https://www.appsdeveloperblog.com/alert-dialog-with-a-text-field-in-flutter/
   final TextEditingController _inputController = TextEditingController();
   final ButtonStyle yesStyle = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 20), primary: Colors.green);
+      textStyle: const TextStyle(fontSize: 20), backgroundColor: Colors.green);
   final ButtonStyle noStyle = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 20), primary: Colors.red);
+      textStyle: const TextStyle(fontSize: 20), backgroundColor: Colors.red);
 
   Future<void> _displayTextInputDialog(BuildContext context) async {
     print("Loading Dialog");
@@ -36,11 +37,65 @@ class _ToDoListState extends State<ToDoList> {
             ),
             actions: <Widget>[
               ElevatedButton(
-                key: const Key("OkButton"),
+                key: const Key("OKButton"),
                 style: yesStyle,
                 child: const Text('OK'),
                 onPressed: () {
                   setState(() {
+                    if (valueText != "") {
+                      _handleNewItem(valueText);
+                      Navigator.pop(context);
+                    }
+                  });
+                },
+              ),
+
+              // https://stackoverflow.com/questions/52468987/how-to-turn-disabled-button-into-enabled-button-depending-on-conditions
+              ValueListenableBuilder<TextEditingValue>(
+                valueListenable: _inputController,
+                builder: (context, value, child) {
+                  return ElevatedButton(
+                    key: const Key("CancelButton"),
+                    style: noStyle,
+                    onPressed: () {
+                      setState(() {
+                        Navigator.pop(context);
+                      });
+                    },
+                    child: const Text('Cancel'),
+                  );
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  Future<void> _displayTextEditDialog(BuildContext context, Item item) async {
+    print("Loading Dialog");
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Item To Edit'),
+            content: TextField(
+              onChanged: (value) {
+                setState(() {
+                  valueText = value;
+                });
+              },
+              controller: _inputController,
+              decoration:
+                  const InputDecoration(hintText: "type something here"),
+            ),
+            actions: <Widget>[
+              ElevatedButton(
+                key: const Key("OKButton"),
+                style: yesStyle,
+                child: const Text('OK'),
+                onPressed: () {
+                  setState(() {
+                    _handleEditItemHelper(item, valueText);
                     Navigator.pop(context);
                   });
                 },
@@ -53,14 +108,11 @@ class _ToDoListState extends State<ToDoList> {
                   return ElevatedButton(
                     key: const Key("CancelButton"),
                     style: noStyle,
-                    onPressed: value.text.isNotEmpty
-                        ? () {
-                            setState(() {
-                              _handleNewItem(valueText);
-                              Navigator.pop(context);
-                            });
-                          }
-                        : null,
+                    onPressed: () {
+                      setState(() {
+                        Navigator.pop(context);
+                      });
+                    },
                     child: const Text('Cancel'),
                   );
                 },
@@ -73,6 +125,7 @@ class _ToDoListState extends State<ToDoList> {
   String valueText = "";
 
   final List<Item> items = [const Item(name: "add more todos")];
+  final List<Item> replacement = [];
 
   final _itemSet = <Item>{};
 
@@ -107,8 +160,27 @@ class _ToDoListState extends State<ToDoList> {
   void _handleNewItem(String itemText) {
     setState(() {
       print("Adding new item");
-      Item item = const Item(name: "itemText");
+      Item item = Item(name: itemText);
       items.insert(0, item);
+      _inputController.clear();
+    });
+  }
+
+  void _handleEditItem(Item item) {
+    setState(() {
+      print("Editing an available item");
+    });
+    _inputController.text = item.name;
+    _displayTextEditDialog(context, item);
+    _inputController.clear();
+  }
+
+  void _handleEditItemHelper(Item item, String valueText) {
+    setState(() {
+      int replacer = items.indexOf(item);
+      replacement.add(Item(name: valueText));
+      items.replaceRange(replacer, replacer + 1, replacement);
+      replacement.clear();
       _inputController.clear();
     });
   }
@@ -126,21 +198,60 @@ class _ToDoListState extends State<ToDoList> {
               item: item,
               completed: _itemSet.contains(item),
               onListChanged: _handleListChanged,
+              onEditItem: _handleEditItem,
               onDeleteItem: _handleDeleteItem,
             );
           }).toList(),
         ),
-        floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.add),
-            onPressed: () {
-              _displayTextInputDialog(context);
-            }));
+        floatingActionButton: SpeedDial(
+          icon: Icons.add,
+          backgroundColor: Theme.of(context).colorScheme.secondary,
+          children: [
+            SpeedDialChild(
+                child: const Icon(
+                  Icons.person_add,
+                  color: Colors.white,
+                ),
+                label: "Add Personal Todo",
+                backgroundColor: Theme.of(context).colorScheme.secondary,
+                onTap: () {
+                  _displayTextInputDialog(context);
+                }),
+            SpeedDialChild(
+                child: const Icon(
+                  Icons.auto_awesome,
+                  color: Colors.yellow,
+                ),
+                label: "Add Arcana Todo",
+                backgroundColor: Theme.of(context).colorScheme.secondary,
+                onTap: () => {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(
+                              builder: ((context) => AstraPage(items: items))))
+                          .then((value) => setState(() => {}))
+                    }),
+          ],
+        ));
   }
 }
 
 void main() {
-  runApp(const MaterialApp(
+  runApp(MaterialApp(
     title: 'To Do List',
     home: ToDoList(),
+    theme: ThemeData.from(colorScheme: const ColorScheme(
+      brightness: Brightness.light,
+      primary: Color.fromARGB(255, 0, 100, 0),
+      onPrimary: Color.fromARGB(255, 255, 255, 255),
+      secondary: Color.fromARGB(255, 0, 140, 0),
+      onSecondary: Color.fromARGB(255, 255, 255, 255),
+      error: Colors.red,
+      onError: Color.fromARGB(255, 255, 255, 255),
+      background: Color.fromARGB(255, 255, 255, 255),
+      onBackground: Color.fromARGB(255, 0, 140, 0),
+      surface: Color.fromARGB(255, 0, 140, 0),
+      onSurface: Color.fromARGB(255, 255, 255, 255),
+
+    ))
   ));
 }
