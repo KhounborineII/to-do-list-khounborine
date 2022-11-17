@@ -77,6 +77,7 @@ class ToDoListItem extends StatelessWidget {
           Text(item.abbrev())
           :
           Icon(item.icon, color: Colors.white),
+
       ),
       title: Text(
         item.name,
