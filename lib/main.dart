@@ -136,12 +136,14 @@ class _ToDoListState extends State<ToDoList> {
     });
   }
 
-  // When you click on a bottom nav bar item, this goes into the PredictTaskWarn and creates the task
+  // When you click on a bottom nav bar item,
+  // this goes into the PredictTaskWarn and creates the task
 
   // the ptw now takes index rather than the unreliable _selectedIndex
-  // Apparently, something happens where _selectedIndex does not get updated properly, so when some
-  // order of tasks, predictions, and warnings are made, _selectedIndex loses track and causes one
-  // of the other things to appear instead of the one that was most recently tapped.
+  // Apparently, something happens where _selectedIndex does not get updated properly,
+  // so when some order of tasks, predictions, and warnings are made,
+  // _selectedIndex loses track and causes one of the other things to appear
+  // instead of the one that was most recently tapped.
   void _onItemTapped(int index) {
     setState(() {
       Random rand = Random();
@@ -206,11 +208,11 @@ void main() {
   ));
 }
 
-// "You could have the app be a fortune recorder, 
+// "You could have the app be a fortune recorder,
 //  so the magic 8 ball is the way you get to add things to the list?"
 
-// Have a class that holds a huge list of "predictions", "tasks", and "warnings" 
-// - When you press the button on the bottom, 
-//    it will add a new item to the list from that list. 
-// If you manually type something into the task list, 
+// Have a class that holds a huge list of "predictions", "tasks", and "warnings"
+// - When you press the button on the bottom,
+//    it will add a new item to the list from that list.
+// If you manually type something into the task list,
 //  append a magic eight ball saying to the end of the to do item.
