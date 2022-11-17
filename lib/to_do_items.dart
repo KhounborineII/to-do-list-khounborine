@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:boxicons/boxicons.dart';
+import 'package:bootstrap_icons/bootstrap_icons.dart';
 
 class Item {
-  const Item({required this.name});
+  const Item({required this.name, required this.index});
 
   final String name;
+  final String index;
 
   String abbrev() {
-    return name.substring(0, 1);
+    return "8";
   }
 }
 
@@ -26,15 +29,34 @@ class ToDoListItem extends StatelessWidget {
   final ToDoListChangedCallback onListChanged;
   final ToDoListRemovedCallback onDeleteItem;
 
-  Color _getColor(BuildContext context) {
+  Color _getColor() {
     // The theme depends on the BuildContext because different
     // parts of the tree can have different themes.
     // The BuildContext indicates where the build is
     // taking place and therefore which theme to use.
+    if (completed) {
+      return Colors.black54;
+    } else if (item.index == "0") {
+      return Colors.pinkAccent;
+    } else if (item.index == "1") {
+      return Colors.blue;
+    } else if (item.index == "2") {
+      return Colors.red;
+    } else {
+      return Colors.black;
+    }
+  }
 
-    return completed //
-        ? Colors.black54
-        : Theme.of(context).primaryColor;
+  Widget? _getIcon() {
+    if (item.index == "0") {
+      return const Icon(Boxicons.bxs_brain);
+    } else if (item.index == "1") {
+      return const Icon(BootstrapIcons.list_task);
+    } else if (item.index == "2") {
+      return const Icon(Icons.warning_amber);
+    } else {
+      return Text(item.abbrev());
+    }
   }
 
   TextStyle? _getTextStyle(BuildContext context) {
@@ -58,8 +80,8 @@ class ToDoListItem extends StatelessWidget {
             }
           : null,
       leading: CircleAvatar(
-        backgroundColor: _getColor(context),
-        child: Text(item.abbrev()),
+        backgroundColor: _getColor(),
+        child: _getIcon(),
       ),
       title: Text(
         item.name,

@@ -6,7 +6,7 @@ import 'dart:math';
 import 'package:boxicons/boxicons.dart';
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 
-List<Item> items = [const Item(name: "add more todos")];
+List<Item> items = [const Item(name: "add more todos", index: "-1")];
 
 class ToDoList extends StatefulWidget {
   const ToDoList({super.key});
@@ -21,22 +21,22 @@ class _ToDoListState extends State<ToDoList> {
   // Dialog with text from https://www.appsdeveloperblog.com/alert-dialog-with-a-text-field-in-flutter/
   final TextEditingController _inputController = TextEditingController();
   final ButtonStyle yesStyle = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 20), primary: Colors.green);
+      textStyle: const TextStyle(fontSize: 20), backgroundColor: Colors.green);
   final ButtonStyle noStyle = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 20), primary: Colors.red);
+      textStyle: const TextStyle(fontSize: 20), backgroundColor: Colors.red);
   int _selectedIndex = 0;
-  predict_task_warn ptw = predict_task_warn();
+  PredictTaskWarn ptw = PredictTaskWarn();
 
   Future<void> _displayTextInputDialog(BuildContext context) async {
     print("Loading Dialog");
-    final _random = new Random();
-    var _magic8 = [
-      "- Yes, Definitely",
-      "- Without a Doubt",
-      "- Signs Point to Yes",
-      "- Maybe",
-      "- Outlook not so good",
-      "- Very Doubtful"
+    final random = Random();
+    var magic8 = [
+      " - Yes, Definitely",
+      " - Without a Doubt",
+      " - Signs Point to Yes",
+      " - Maybe",
+      " - Outlook not so good",
+      " - Very Doubtful"
     ];
 
     return showDialog(
@@ -60,11 +60,13 @@ class _ToDoListState extends State<ToDoList> {
                 style: yesStyle,
                 child: const Text('OK'),
                 onPressed: () {
-                  setState(() {
-                    _handleNewItem(valueText + _magic8[_random.nextInt(6)]);
-                    Navigator.pop(context);
-                    valueText = "";
-                  });
+                  if (valueText != "") {
+                    setState(() {
+                      _handleNewItem(valueText + magic8[random.nextInt(6)]);
+                      Navigator.pop(context);
+                      valueText = "";
+                    });
+                  }
                 },
               ),
 
@@ -113,6 +115,7 @@ class _ToDoListState extends State<ToDoList> {
         print("Making Undone");
         _itemSet.remove(item);
         items.insert(0, item);
+        numCompleted--;
       }
     });
   }
@@ -127,20 +130,26 @@ class _ToDoListState extends State<ToDoList> {
   void _handleNewItem(String itemText) {
     setState(() {
       print("Adding new item");
-      Item item = Item(name: itemText);
+      Item item = Item(name: itemText, index: "-1");
       items.insert(0, item);
       _inputController.clear();
     });
   }
 
-  // When you click on a bottom nav bar item, this goes into the predict_task_warn and creates the task
+  // When you click on a bottom nav bar item, this goes into the PredictTaskWarn and creates the task
+
+  // the ptw now takes index rather than the unreliable _selectedIndex
+  // Apparently, something happens where _selectedIndex does not get updated properly, so when some
+  // order of tasks, predictions, and warnings are made, _selectedIndex loses track and causes one
+  // of the other things to appear instead of the one that was most recently tapped.
   void _onItemTapped(int index) {
     setState(() {
       Random rand = Random();
       _selectedIndex = index;
-      String name = ptw.ptw(_selectedIndex, rand);
-      Item item = Item(name: name);
+      String name = ptw.ptw(index, rand);
+      Item item = Item(name: name, index: "$index");
       items.insert(0, item);
+      print(index);
     });
   }
 

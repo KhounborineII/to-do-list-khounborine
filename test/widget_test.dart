@@ -16,8 +16,8 @@ import 'package:to_dont_list/predict_task_warn.dart';
 
 void main() {
   test('Item abbreviation should be first letter', () {
-    const item = Item(name: "add more todos");
-    expect(item.abbrev(), "a");
+    const item = Item(name: "add more todos", index: "-1");
+    expect(item.abbrev(), "8");
   });
 
   // Yes, you really need the MaterialApp and Scaffold
@@ -25,7 +25,7 @@ void main() {
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(
             body: ToDoListItem(
-                item: const Item(name: "test"),
+                item: const Item(name: "test", index: "-1"),
                 completed: true,
                 onListChanged: (Item item, bool completed) {},
                 onDeleteItem: (Item item) {}))));
@@ -41,7 +41,7 @@ void main() {
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(
             body: ToDoListItem(
-                item: const Item(name: "test"),
+                item: const Item(name: "test", index: "-1"),
                 completed: true,
                 onListChanged: (Item item, bool completed) {},
                 onDeleteItem: (Item item) {}))));
@@ -114,7 +114,7 @@ void main() {
       'Giving an int and a random number to predictTaskWarn returns a string',
       (tester) async {
     Random rand = Random();
-    String result = predict_task_warn().ptw(2, rand);
+    String result = PredictTaskWarn().ptw(2, rand);
 
     expect(result.runtimeType, String);
   });

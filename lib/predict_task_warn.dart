@@ -1,9 +1,6 @@
 import 'dart:math';
 
-import 'package:flutter/material.dart';
-import 'package:to_dont_list/to_do_items.dart';
-
-class predict_task_warn {
+class PredictTaskWarn {
   // Predict Array
   final predict = [
     "You have a secret admirer, find them.",
@@ -31,15 +28,17 @@ class predict_task_warn {
     "Buy a bidet."
   ];
   // Warning Array
+  // Some warnings were vague enough to seem like predictions,
+  // I understand why Connor thought this wasn't right.
   final warn = [
-    "Beware of incoming weather",
-    "Don't behave with manners poor",
-    "Change is inevitable, except from vending machines",
-    "Everyone seems normal until you get to know them.",
-    "Your road to glory will be rocky but fulfilling.",
+    "Beware of incoming weather.",
+    "Don't behave with poor manners, or else.",
+    "Change is inevitable, except from vending machines.",
+    "Beware, everyone seems normal until you get to know them.",
+    "Glory will be yours, but avoid the pitfalls on the way.",
     "Stop eating now. Food poisoning no fun.",
     "You think it’s a secret, but they know.",
-    "An alien of some sort will be appearing to you shortly."
+    "AN ALIEN IS COMING FOR YOU. THIS IS NOT A PREDICTION."
   ];
 
   //ptw now works by giving it the index, and then picking a random index from the list of the first index
@@ -47,9 +46,9 @@ class predict_task_warn {
     if (s == 0) {
       return predict[rand.nextInt(predict.length)];
     } else if (s == 1) {
-      return warn[rand.nextInt(warn.length)];
-    } else {
       return task[rand.nextInt(task.length)];
+    } else {
+      return warn[rand.nextInt(warn.length)];
     }
   }
 }
