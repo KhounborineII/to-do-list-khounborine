@@ -243,7 +243,7 @@ class _AstraPage extends State<AstraPage> {
                         key: const Key("ArcanaAddButton"),
                         onPressed: () => {
                               setState(() {
-                                fortuneItem = Item(name: fortuneCommand);
+                                fortuneItem = Item(name: fortuneCommand, icon: arcana, color: mainColor);
                                 widget.items.add(fortuneItem);
                                 Navigator.pop(context);
                               })

@@ -172,6 +172,7 @@ class _ToDoListState extends State<ToDoList> {
     });
     _inputController.text = item.name;
     _displayTextEditDialog(context, item);
+    _inputController.clear();
   }
 
   void _handleEditItemHelper(Item item, String valueText) {
@@ -204,7 +205,7 @@ class _ToDoListState extends State<ToDoList> {
         ),
         floatingActionButton: SpeedDial(
           icon: Icons.add,
-          backgroundColor: Colors.blue,
+          backgroundColor: Theme.of(context).colorScheme.secondary,
           children: [
             SpeedDialChild(
                 child: const Icon(
@@ -212,7 +213,7 @@ class _ToDoListState extends State<ToDoList> {
                   color: Colors.white,
                 ),
                 label: "Add Personal Todo",
-                backgroundColor: Colors.blueAccent,
+                backgroundColor: Theme.of(context).colorScheme.secondary,
                 onTap: () {
                   _displayTextInputDialog(context);
                 }),
@@ -222,7 +223,7 @@ class _ToDoListState extends State<ToDoList> {
                   color: Colors.yellow,
                 ),
                 label: "Add Arcana Todo",
-                backgroundColor: Colors.blueAccent,
+                backgroundColor: Theme.of(context).colorScheme.secondary,
                 onTap: () => {
                       Navigator.of(context)
                           .push(MaterialPageRoute(
@@ -235,8 +236,22 @@ class _ToDoListState extends State<ToDoList> {
 }
 
 void main() {
-  runApp(const MaterialApp(
+  runApp(MaterialApp(
     title: 'To Do List',
     home: ToDoList(),
+    theme: ThemeData.from(colorScheme: const ColorScheme(
+      brightness: Brightness.light,
+      primary: Color.fromARGB(255, 0, 100, 0),
+      onPrimary: Color.fromARGB(255, 255, 255, 255),
+      secondary: Color.fromARGB(255, 0, 140, 0),
+      onSecondary: Color.fromARGB(255, 255, 255, 255),
+      error: Colors.red,
+      onError: Color.fromARGB(255, 255, 255, 255),
+      background: Color.fromARGB(255, 255, 255, 255),
+      onBackground: Color.fromARGB(255, 0, 140, 0),
+      surface: Color.fromARGB(255, 0, 140, 0),
+      onSurface: Color.fromARGB(255, 255, 255, 255),
+
+    ))
   ));
 }

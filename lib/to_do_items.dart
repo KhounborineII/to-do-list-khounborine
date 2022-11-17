@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class Item {
-  const Item({required this.name});
+  const Item({required this.name, this.icon, this.color});
 
   final String name;
+  final IconData? icon;
+  final Color? color;
 
   String abbrev() {
     return name.substring(0, 1);
@@ -35,9 +37,13 @@ class ToDoListItem extends StatelessWidget {
     // The BuildContext indicates where the build is
     // taking place and therefore which theme to use.
 
-    return completed //
-        ? Colors.black54
-        : Theme.of(context).primaryColor;
+    if (completed) {
+      return Colors.black54;
+    } else if (item.color == null){
+      return Theme.of(context).primaryColor;
+    } else {
+      return item.color!;
+    }
   }
 
   TextStyle? _getTextStyle(BuildContext context) {
@@ -66,7 +72,12 @@ class ToDoListItem extends StatelessWidget {
               : null,
       leading: CircleAvatar(
         backgroundColor: _getColor(context),
-        child: Text(item.abbrev()),
+        child: (item.icon == null)
+          ?
+          Text(item.abbrev())
+          :
+          Icon(item.icon, color: Colors.white),
+
       ),
       title: Text(
         item.name,
