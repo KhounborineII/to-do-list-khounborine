@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 class Character {
   Character({required this.name});
 
-  final String name;
+  String name;
   List<int> stats = [0, 0, 0, 0, 0, 0];
 
   String abbrev() {
@@ -44,17 +44,20 @@ class Character {
 
 typedef CharacterListChangedCallback = Function(Character c);
 typedef CharacterListRemovedCallback = Function(Character c);
+typedef CharacterListEditCallback = Function(Character c);
 
 class CharacterListItem extends StatelessWidget {
   CharacterListItem(
       {required this.c,
       required this.onListChanged,
-      required this.onDeleteItem})
+      required this.onDeleteItem,
+      required this.onEditItem})
       : super(key: ObjectKey(c));
 
   final Character c;
   final CharacterListChangedCallback onListChanged;
   final CharacterListRemovedCallback onDeleteItem;
+  final CharacterListEditCallback onEditItem;
 
   Color _getColor(BuildContext context) {
     return Theme.of(context).primaryColor;
@@ -74,6 +77,10 @@ class CharacterListItem extends StatelessWidget {
           content: Text(c.printStats()),
           actions: <Widget>[
             TextButton(
+              onPressed: () => {onDeleteItem(c), Navigator.pop(context)},
+              child: const Text("Delete"),
+            ),
+            TextButton(
               onPressed: () => {c.populateStats(), Navigator.pop(context)},
               child: const Text('Reroll'),
             ),
@@ -85,7 +92,7 @@ class CharacterListItem extends StatelessWidget {
         ),
       ),
       onLongPress: () {
-        onDeleteItem(c);
+        onEditItem(c);
       },
       leading: CircleAvatar(
         backgroundColor: _getColor(context),

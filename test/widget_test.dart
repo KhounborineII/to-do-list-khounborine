@@ -22,9 +22,11 @@ void main() {
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(
             body: CharacterListItem(
-                c: Character(name: "test"),
-                onListChanged: (Character c) {},
-                onDeleteItem: (Character c) {}))));
+      c: Character(name: "test"),
+      onListChanged: (Character c) {},
+      onDeleteItem: (Character c) {},
+      onEditItem: (Character c) {},
+    ))));
     final textFinder = find.text('test');
 
     // Use the `findsOneWidget` matcher provided by flutter_test to verify
@@ -37,9 +39,11 @@ void main() {
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(
             body: CharacterListItem(
-                c: Character(name: "test"),
-                onListChanged: (Character c) {},
-                onDeleteItem: (Character c) {}))));
+      c: Character(name: "test"),
+      onListChanged: (Character c) {},
+      onDeleteItem: (Character c) {},
+      onEditItem: (Character c) {},
+    ))));
     final abbvFinder = find.text('t');
     final avatarFinder = find.byType(CircleAvatar);
 
