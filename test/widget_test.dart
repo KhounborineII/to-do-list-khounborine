@@ -76,7 +76,45 @@ void main() {
 
     final listCharFinder = find.byType(CharacterListItem);
 
-    expect(listCharFinder, findsNWidgets(2));
+    expect(listCharFinder, findsNWidgets(1));
+  });
+
+  testWidgets('Editing a character already in the list', (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: CharacterList()));
+
+    expect(find.byType(TextField), findsNothing);
+
+    await tester.tap(find.byType(FloatingActionButton));
+    await tester.pump(); // Pump after every action to rebuild the widgets
+    expect(find.text("hi"), findsNothing);
+
+    await tester.enterText(find.byType(TextField), 'hi');
+    await tester.pump();
+    expect(find.text("hi"), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key("OKButton")));
+    await tester.pump();
+    expect(find.text("hi"), findsOneWidget);
+
+    final listCharFinder = find.byType(CharacterListItem);
+
+    expect(listCharFinder, findsNWidgets(1));
+
+    await tester.longPress(find.byType(ListTile));
+    await tester.pump();
+    expect(find.text("hi"), findsNWidgets(1));
+
+    await tester.enterText(find.byType(TextField), 'i work');
+    await tester.pump();
+    expect(find.text("i work"), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key("OKButton")));
+    await tester.pump();
+    expect(find.text("i work"), findsOneWidget);
+
+    final listItemFinder = find.byType(CharacterListItem);
+
+    expect(listItemFinder, findsOneWidget);
   });
 
   // One to test the tap and press actions on the items?
