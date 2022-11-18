@@ -14,9 +14,9 @@ class _CharacterListState extends State<CharacterList> {
   // Dialog with text from https://www.appsdeveloperblog.com/alert-dialog-with-a-text-field-in-flutter/
   final TextEditingController _inputController = TextEditingController();
   final ButtonStyle yesStyle = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 20), primary: Colors.green);
+      textStyle: const TextStyle(fontSize: 20), backgroundColor: Colors.green);
   final ButtonStyle noStyle = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 20), primary: Colors.red);
+      textStyle: const TextStyle(fontSize: 20), backgroundColor: Colors.red);
 
   Future<void> _displayTextInputDialog(BuildContext context) async {
     print("Loading Dialog");
@@ -132,19 +132,20 @@ class _CharacterListState extends State<CharacterList> {
 void main() {
   runApp(MaterialApp(
     title: 'DnD Character List',
-    home: CharacterList(),
+    home: const CharacterList(),
     theme: ThemeData(
       brightness: Brightness.light,
       primaryColor: Colors.red,
-      accentColor: Colors.deepOrangeAccent,
       fontFamily: 'Georgia',
 
       //text styling
-      textTheme: TextTheme(
+      textTheme: const TextTheme(
         headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
         headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
         bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
       ),
+      colorScheme:
+          ColorScheme.fromSwatch().copyWith(secondary: Colors.deepOrangeAccent),
     ),
   ));
 }
